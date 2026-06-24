@@ -1,0 +1,27 @@
+# ── PRIVATE — never publish ──
+# master spreadsheet (cost + value history)
+Card_Collection.xlsx
+
+# ── Internal project files (kept local, not part of the public site) ──
+HANDOFF.md
+MayseQards_BuildBrief.md
+.claude/
+# local dev server
+serve.py
+# owner-only eBay sold-search tool
+comp-lookup.html
+# naming data bank (used by Claude, not the site)
+checklists.json
+
+# ── Legacy / superseded drafts ──
+mayseqards.html
+mayseqards-2.html
+mayseqards-3.html
+cards.json
+
+# ── Large installers & OS cruft ──
+*.dmg
+.DS_Store
+
+# The PUBLIC site (what deploys) is: index.html, storefront.html,
+# collection.js, values.js, photos/  — plus .gitignore and DEPLOY.md.
