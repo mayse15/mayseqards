@@ -18,6 +18,7 @@ values.js
 gen_tiers.py
 # private owner dashboard (value + P&L) — never deployed
 dashboard.html
+gen_dashboard.py
 
 # ── Legacy / superseded drafts ──
 mayseqards.html
