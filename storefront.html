@@ -285,6 +285,9 @@ body{
 .mv-player{font-family:var(--display);font-weight:600;font-size:13.5px;text-transform:uppercase;letter-spacing:.02em;line-height:1.15;}
 .mv-set{font-weight:400;color:var(--muted);font-size:.8em;letter-spacing:.02em;}
 .mv-sub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.35;}
+.mv-row.compact{padding:6px 0;gap:9px;}
+.mv-row.compact .mv-name{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.mv-row.compact .mv-sub{margin-top:0;}
 .mv-delta{font-family:var(--display);font-weight:600;font-size:14px;white-space:nowrap;text-align:right;}
 .mv-delta.up{color:#7BC4A0;}
 .mv-delta.down{color:var(--crimson-bright);}
@@ -433,12 +436,18 @@ body{
 
 <!-- data -->
 <script src="collection.js"></script>
-<script src="values.js"></script>
+<script src="prices.js"></script>
 <script src="reviews.js"></script>
 <script>
 const EBAY_STORE_URL = 'https://www.ebay.com/usr/MayseQards';   // main eBay storefront
 const CARDS = (window.CARDS || []);
-const MARKET = (window.MARKET || {cards:{}});
+const PRICES = (window.PRICES || {});
+const priceOf = id => (typeof PRICES[id]==='number' ? PRICES[id] : 0);
+/* Hype Top 10 (most → least). Reorder these ids to re-rank.
+   C002 Ace Bailey Red Ref /5 · C001 Luka Gold /50 · C017 Wemby Refractor #59 · C026 Cooper Flagg RC
+   C011 Wemby Prizm RC · C014 Dylan Harper Cactus Jack RC · C007 De'Aaron Fox Auto /15 · C003 Curry Utopia
+   C008 Christian Braun Black Auto 1/10 · C006 Cam Thomas Gold SSP /50 */
+const HYPE_TOP10 = ["C002","C001","C017","C026","C011","C014","C007","C003","C008","C006"];
 const REVIEWS = (window.REVIEWS || []);
 
 /* ── helpers ── */
@@ -636,81 +645,57 @@ function depthTag(d){
 
 function renderMarket(){
   const body=$('market-body');
-  const M=MARKET.cards||{};
-  const get=id=>M[id]||{};
   const owned=CARDS.filter(c=>c.status!=='sold');
+  const valOf=c=>priceOf(c.id);
+  const priceStr=c=>valOf(c)?money(valOf(c)):'—';
+  const cardById=id=>CARDS.find(c=>c.id===id);
 
-  const updated=MARKET.updated||'';
-  const valOf=c=>{const m=get(c.id);return typeof m.lastSale==='number'?m.lastSale:(typeof m.est==='number'?m.est:0);};
-  const hasComp=c=>typeof get(c.id).lastSale==='number';
+  // compact hype row (rank + player + variant) — no price
+  const valRow=(c,i)=>`<div class="mv-row compact" data-card="${esc(c.id)}"><span class="mv-rank">${i+1}</span>
+    <div class="mv-name"><span class="mv-player">${esc(c.player)}</span><span class="mv-sub">${esc(c.type)} ${gradeChip(c)}</span></div></div>`;
 
-  // full row — verified sale (solid) or ladder estimate (~)
-  const row=(c,i)=>{
-    const m=get(c.id);
-    if(typeof m.lastSale==='number'){
-      const src=m.source?`<div class="comp-src">via ${esc(m.source)}</div>`:'';
-      return `<div class="mv-row"><span class="mv-rank">${i+1}</span>
-        <div class="mv-name"><div class="mv-player">${esc(c.player)} <span class="mv-set">${esc(c.pack)}</span></div><div class="mv-sub">${esc(c.type)} ${gradeChip(c)}</div></div>
-        <div class="comp-right"><div class="hold-val">${money(m.lastSale)}</div><div class="comp-line"><span class="comp-label">Last sale${m.saleDate?` · ${fmtDate(m.saleDate)}`:''}</span> ${depthTag(m.depth||'active')}</div>${src}</div></div>`;
-    }
-    return `<div class="mv-row is-est"><span class="mv-rank">${i+1}</span>
-      <div class="mv-name"><div class="mv-player">${esc(c.player)} <span class="mv-set">${esc(c.pack)}</span></div><div class="mv-sub">${esc(c.type)} ${gradeChip(c)}</div></div>
-      <div class="comp-right"><div class="hold-val est">~${money(m.est)}</div><div class="comp-line"><span class="est-tag">Est</span> <span class="comp-label">${esc(m.estBasis||'comparable card')}</span></div></div></div>`;
-  };
   // premium showcase tile for The Vault
   const vaultTile=(c)=>{
-    const m=get(c.id), verified=typeof m.lastSale==='number';
-    const val=verified?money(m.lastSale):'~'+money(m.est);
-    const badge=verified?(m.depth==='active'?'Active market':'Thin market'):'Estimate';
-    const detail=verified?(m.source?'via '+esc(m.source):'eBay sold'):esc(m.estBasis||'ladder estimate');
-    return `<div class="vault-tile${verified?'':' is-est'}" data-card="${esc(c.id)}">
-      <div class="vault-badge">◆ ${badge} ${gradeChip(c)}</div>
+    const ser=parseSerial(c.type);
+    const scar=ser?(ser.run===1?'1/1':'/'+ser.run):'';
+    const scarCls=ser?(ser.run<=10?'elite':ser.run<=50?'rare':''):'';
+    return `<div class="vault-tile" data-card="${esc(c.id)}">
+      <div class="vault-badge">◆ The Vault ${gradeChip(c)}${scar?` <span class="serial-badge ${scarCls}">${scar}</span>`:''}</div>
       <div class="vault-player">${esc(c.player)} <span class="mv-set">${esc(c.pack)}</span></div>
       <div class="vault-type">${esc(c.type)}</div>
-      <div class="vault-val">${val}</div>
-      <div class="vault-detail">${detail}</div>
     </div>`;
   };
-  // compact row for the $1 bin popup
+  // compact row for the low-price bin popup (with eBay buy link)
   const binRow=(c)=>{
-    const m=get(c.id);
-    const v=typeof m.lastSale==='number'?money(m.lastSale):'~'+money(m.est);
     const hasLink=c.listing&&c.listing.trim();
     const url=hasLink?c.listing:EBAY_STORE_URL;
     const buy=`<a class="bin-buy" href="${esc(url)}" target="_blank" rel="noopener noreferrer" title="${hasLink?'View this item on eBay':'Shop the eBay store'}">${extIcon}<span>eBay</span></a>`;
-    return `<div class="mv-row"><div class="mv-name"><div class="mv-player">${esc(c.player)} <span class="mv-set">${esc(c.pack)}</span></div><div class="mv-sub">${esc(c.type)} ${gradeChip(c)}</div></div><span class="bin-val">${v}</span>${buy}</div>`;
+    return `<div class="mv-row"><div class="mv-name"><div class="mv-player">${esc(c.player)} <span class="mv-set">${esc(c.pack)}</span></div><div class="mv-sub">${esc(c.type)} ${gradeChip(c)}</div></div>${buy}</div>`;
   };
 
-  // ── buckets (Vault & Top 10 can overlap — Vault is a value showcase) ──
-  const VAULT_MIN=40;
+  // ── buckets ──
+  const VAULT_MIN=40, BIN_MAX=5;
   const byVal=(a,b)=>valOf(b)-valOf(a);
-  const vault=owned.filter(c=>valOf(c)>=VAULT_MIN).sort(byVal);        // showcase: most valuable
-  const top10=owned.filter(hasComp).sort(byVal).slice(0,10);          // best sellers (may also be in Vault)
-  const bin=owned.filter(c=>valOf(c)<=5).sort(byVal);                 // $1 bin
-  const top10ids=new Set(top10.map(c=>c.id)), vaultIds=new Set(vault.map(c=>c.id)), binIds=new Set(bin.map(c=>c.id));
-  const rest=owned.filter(c=>!top10ids.has(c.id)&&!vaultIds.has(c.id)&&!binIds.has(c.id)).sort(byVal);
+  const hype=HYPE_TOP10.map(cardById).filter(c=>c&&c.status!=='sold');   // curated, in order
+  const vault=owned.filter(c=>valOf(c)>=VAULT_MIN).sort(byVal);          // highest value
+  const bin=owned.filter(c=>valOf(c)>0&&valOf(c)<=BIN_MAX).sort(byVal);  // low-priced
 
-  // ── header (with card-shaped $1-bin button) ──
+  // ── header (with card-shaped low-price bin button) ──
   const header=`<div class="mw-header">
-    <div><div class="mw-count"><b>${owned.length}</b> Cards Tracked</div><div class="mw-meta">${vault.length} in the Vault · top 10 selling · updated ${updated?fmtDate(updated):'—'}</div></div>
+    <div><div class="mw-count"><b>${owned.length}</b> Cards in the Collection</div><div class="mw-meta">${hype.length} in The Hype · ${vault.length} in the Vault</div></div>
     <button class="bin-card" id="bin-chip" title="$5 &amp; Under Bin"><span class="bin-card-amt">$5</span><span class="bin-card-label">&amp; Under</span><span class="bin-card-count">${bin.length} cards</span></button>
   </div>`;
 
-  // ── The Vault — exclusive high-value showcase ──
+  // ── Top 10 — The Hype (curated, most → least) ──
+  const hypeBoard=`<div class="panel-box"><div class="mover-h hold">◆ Top 10 — The Hype</div>
+    <div class="board-note">The 10 most-wanted cards in the collection — hottest first.</div>
+    ${hype.length?hype.map(valRow).join(''):'<div class="mv-await">—</div>'}</div>`;
+
+  // ── The Vault — high-value showcase ──
   const vaultBoard=`<div class="vault-showcase">
     <div class="vault-h"><span class="vault-h-title">◆ The Vault</span><span class="vault-h-sub">The crown jewels · the collection's highest-value cards</span></div>
     <div class="vault-grid">${vault.length?vault.map(vaultTile).join(''):`<div class="mv-await">No cards over $${VAULT_MIN} right now.</div>`}</div>
   </div>`;
-
-  // ── Top 10 — Selling Now (best sellers; showcase pieces appear here too) ──
-  const top10Board=`<div class="panel-box"><div class="mover-h hold">◆ Top 10 — Selling Now</div>
-    <div class="board-note">The 10 highest sales in the collection — Vault pieces that are also moving show here as well.</div>
-    ${top10.length?top10.map(row).join(''):'<div class="mv-await">No sales logged yet.</div>'}</div>`;
-
-  // ── The Bench — everything else with a tracked value ──
-  const restBoard=`<div class="panel-box"><div class="mover-h vault">◆ The Bench</div>
-    <div class="board-note">Mid-range holds &amp; everything else not in the Top 10.</div>
-    ${rest.length?rest.map(row).join(''):'<div class="mv-await">Nothing here right now.</div>'}</div>`;
 
   // ── Scarcity board (auto from serials) ──
   const numbered=owned.map(c=>({c,s:parseSerial(c.type)})).filter(x=>x.s).sort((a,b)=>a.s.run-b.s.run||a.s.serial-b.s.serial);
@@ -718,25 +703,26 @@ function renderMarket(){
   const scarRow=(x,i)=>{
     const run=x.s.run, cls=run<=10?'elite':run<=50?'rare':'';
     const badge=run===1?'1/1':`/${run}`;
-    return `<div class="mv-row"><span class="mv-rank">${i+1}</span>
+    return `<div class="mv-row" data-card="${esc(x.c.id)}"><span class="mv-rank">${i+1}</span>
       <span class="serial-badge ${cls}">${badge}</span>
       <div class="mv-name"><div class="mv-player">${esc(x.c.player)} <span class="mv-set">${esc(x.c.pack)}</span></div><div class="mv-sub">${esc(x.c.type)}</div></div></div>`;
   };
   const scarBoard=`<div class="panel-box"><div class="mover-h gain">◆ Scarcity Board</div>
+    <div class="board-note">Owned cards ranked by print run — rarest first.</div>
     ${numbered.map(scarRow).join('')}
     ${unNum?`<div class="mv-await">+ ${unNum} unnumbered card${unNum>1?'s':''} (base, inserts &amp; unnumbered autos).</div>`:''}</div>`;
 
-  // ── $1 Bin popup (opened by the header chip) ──
+  // ── low-price Bin popup (opened by the header chip) ──
   const binPopup=`<div class="bin-popup" id="bin-popup"><div class="bin-popup-inner">
     <div class="bin-popup-h"><span>💲 The $5 &amp; Under Bin · base &amp; commons</span><button class="bin-close" id="bin-close" aria-label="Close">✕</button></div>
     ${bin.length?bin.map(binRow).join(''):'<div class="mv-await">Empty right now.</div>'}
   </div></div>`;
 
-  const note=`<div class="market-note"><b>The Vault</b> = showcase of your most valuable cards. <b>Top 10</b> = best sellers (a card can be in both). <b>The Bench</b> = everything else. <b>$5 &amp; Under Bin</b> (the card, top-right) = base &amp; commons.<br><b>Solid</b> = verified eBay sale (source shown); <b>~</b> = ladder estimate. <b>All values are for ungraded (Raw) copies</b> — graded slabs sell higher. All finalize on eBay${updated?`. Refreshed ${fmtDateFull(updated)}`:''}.</div>`;
+  const note=`<div class="market-note"><b>The Hype</b> = the 10 most-wanted cards. <b>The Vault</b> = the showcase pieces. <b>Scarcity Board</b> = rarest by print run. <b>$5 &amp; Under Bin</b> (the card, top-right) = base &amp; commons.<br>All cards are ungraded (Raw) — graded slabs sell for more. Every card finalizes on eBay.</div>`;
 
-  body.innerHTML=header+vaultBoard+top10Board+restBoard+scarBoard+note+binPopup;
+  body.innerHTML=header+hypeBoard+vaultBoard+scarBoard+note+binPopup;
 
-  // wire the $1-bin click-in popup
+  // wire the low-price bin click-in popup
   const chip=$('bin-chip'), pop=$('bin-popup'), close=$('bin-close');
   if(chip&&pop){
     chip.addEventListener('click',()=>pop.classList.add('open'));
@@ -805,31 +791,9 @@ function rangeBarHTML(lo,hi,val){
   return `<div class="cs-range"><div class="cs-rangebar"><div class="cs-rangefill" style="width:${pos}%"></div><div class="cs-rangedot" style="left:${pos}%"></div></div><div class="cs-rangeends"><span>${money(lo)}</span><span>${money(hi)}</span></div></div>`;
 }
 function spotlightHTML(c){
-  const m=(MARKET.cards||{})[c.id]||{};
-  const verified=typeof m.lastSale==='number';
-  const val=verified?m.lastSale:(typeof m.est==='number'?m.est:null);
-  const valStr=val==null?'—':(verified?money(val):'~'+money(val));
   const ser=parseSerial(c.type);
   const scar=ser?(ser.run===1?'1/1':'/'+ser.run):null;
   const scarCls=ser?(ser.run<=10?'elite':ser.run<=50?'rare':''):'';
-
-  let potential='';
-  if(Array.isArray(m.ladder)&&m.ladder.length){
-    potential=`<div class="cs-sect">Value ladder — where this card sits</div>${ladderHTML(m.ladder)}`;
-  } else if(val!=null){
-    const r=parseRange(m.source||m.estBasis||'');
-    if(r) potential=`<div class="cs-sect">Sold range — where it trades</div>${rangeBarHTML(r.lo,r.hi,val)}`;
-  }
-
-  const depthNames={active:'Active market',thin:'Thin market',none:'No recent sales'};
-  const valMeta=val==null
-    ? '<span class="depth-tag pending">Comp pending</span>'
-    : (verified
-        ? `<span class="depth-tag ${m.depth||'active'}">${depthNames[m.depth]||'Comp pending'}</span>${m.saleDate?`<span class="cs-valmeta">Last sale · ${fmtDate(m.saleDate)}</span>`:''}`
-        : `<span class="est-tag">Est</span><span class="cs-valmeta">ladder estimate</span>`);
-  const basisTxt=verified
-    ? (m.source?('Verified eBay sale — '+m.source):'Verified eBay sale of this exact card.')
-    : (m.estBasis?('Estimate — '+m.estBasis):'Estimated from comparable copies of this card.');
   const thumb=c.photo
     ? `<img src="${esc(c.photo)}" alt="${esc(c.player)}" onerror="this.style.display='none'">`
     : `<div class="holo"><div class="holo-shimmer"></div><div class="card-initial">${esc(c.player[0])}</div></div>`;
@@ -837,8 +801,8 @@ function spotlightHTML(c){
   const ebayUrl=hasLink?c.listing:EBAY_STORE_URL;
   const ebayLbl=hasLink?('View on '+mpLabel(c.listing)):'Shop on eBay';
   const upside=c.grade
-    ? `Graded ${esc(c.grade)} — value reflects this slab.`
-    : 'Raw copy. Graded (PSA/BGS) examples of this card sell higher — the upside above this number.';
+    ? `Graded ${esc(c.grade)} — a professionally slabbed copy.`
+    : 'Raw copy. Graded (PSA/BGS) examples of this card sell for more.';
 
   return `<div class="cs-card" role="dialog" aria-modal="true" aria-label="${esc(c.player)} card details">
     <div class="cs-top">
@@ -852,10 +816,6 @@ function spotlightHTML(c){
       <button class="cs-x" id="cs-x" aria-label="Close">✕</button>
     </div>
     <div class="cs-body">
-      <div class="cs-valrow"><span class="cs-val${verified?'':' est'}">${valStr}</span>${valMeta}</div>
-      ${potential}
-      <div class="cs-sect">What sets the value</div>
-      <div class="cs-basis">${esc(basisTxt)}</div>
       <div class="cs-upside"><span class="cs-up-ic">▲</span><span>${upside}</span></div>
       <div class="cs-btns"><a class="btn-ebay" href="${esc(ebayUrl)}" target="_blank" rel="noopener noreferrer">${extIcon} ${ebayLbl}</a></div>
     </div>
