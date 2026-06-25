@@ -436,13 +436,12 @@ body{
 
 <!-- data -->
 <script src="collection.js"></script>
-<script src="prices.js"></script>
+<script src="tiers.js"></script>
 <script src="reviews.js"></script>
 <script>
 const EBAY_STORE_URL = 'https://www.ebay.com/usr/MayseQards';   // main eBay storefront
 const CARDS = (window.CARDS || []);
-const PRICES = (window.PRICES || {});
-const priceOf = id => (typeof PRICES[id]==='number' ? PRICES[id] : 0);
+const TIERS = (window.TIERS || {vault:[],bin:[]});
 /* Hype Top 10 (most → least). Reorder these ids to re-rank.
    C002 Ace Bailey Red Ref /5 · C001 Luka Gold /50 · C017 Wemby Refractor #59 · C026 Cooper Flagg RC
    C011 Wemby Prizm RC · C014 Dylan Harper Cactus Jack RC · C007 De'Aaron Fox Auto /15 · C003 Curry Utopia
@@ -646,9 +645,9 @@ function depthTag(d){
 function renderMarket(){
   const body=$('market-body');
   const owned=CARDS.filter(c=>c.status!=='sold');
-  const valOf=c=>priceOf(c.id);
-  const priceStr=c=>valOf(c)?money(valOf(c)):'—';
+  const ownedIds=new Set(owned.map(c=>c.id));
   const cardById=id=>CARDS.find(c=>c.id===id);
+  const byTier=ids=>(ids||[]).filter(id=>ownedIds.has(id)).map(cardById);  // in tiers.js order
 
   // compact hype row (rank + player + variant) — no price
   const valRow=(c,i)=>`<div class="mv-row compact" data-card="${esc(c.id)}"><span class="mv-rank">${i+1}</span>
@@ -673,12 +672,10 @@ function renderMarket(){
     return `<div class="mv-row"><div class="mv-name"><div class="mv-player">${esc(c.player)} <span class="mv-set">${esc(c.pack)}</span></div><div class="mv-sub">${esc(c.type)} ${gradeChip(c)}</div></div>${buy}</div>`;
   };
 
-  // ── buckets ──
-  const VAULT_MIN=40, BIN_MAX=5;
-  const byVal=(a,b)=>valOf(b)-valOf(a);
+  // ── buckets (membership comes from tiers.js — no values on the client) ──
   const hype=HYPE_TOP10.map(cardById).filter(c=>c&&c.status!=='sold');   // curated, in order
-  const vault=owned.filter(c=>valOf(c)>=VAULT_MIN).sort(byVal);          // highest value
-  const bin=owned.filter(c=>valOf(c)>0&&valOf(c)<=BIN_MAX).sort(byVal);  // low-priced
+  const vault=byTier(TIERS.vault);                                       // pre-sorted high→low
+  const bin=byTier(TIERS.bin);                                           // low-priced
 
   // ── header (with card-shaped low-price bin button) ──
   const header=`<div class="mw-header">
@@ -694,7 +691,7 @@ function renderMarket(){
   // ── The Vault — high-value showcase ──
   const vaultBoard=`<div class="vault-showcase">
     <div class="vault-h"><span class="vault-h-title">◆ The Vault</span><span class="vault-h-sub">The crown jewels · the collection's highest-value cards</span></div>
-    <div class="vault-grid">${vault.length?vault.map(vaultTile).join(''):`<div class="mv-await">No cards over $${VAULT_MIN} right now.</div>`}</div>
+    <div class="vault-grid">${vault.length?vault.map(vaultTile).join(''):`<div class="mv-await">No vault cards right now.</div>`}</div>
   </div>`;
 
   // ── Scarcity board (auto from serials) ──

@@ -13,9 +13,9 @@ serve.py
 comp-lookup.html
 # naming data bank (used by Claude, not the site)
 checklists.json
-# private value comps (sources/ranges/estimate basis) — only the derived prices.js is public
+# private value comps (sources/ranges/estimate basis) — only the derived tiers.js is public
 values.js
-gen_prices.py
+gen_tiers.py
 
 # ── Legacy / superseded drafts ──
 mayseqards.html
@@ -28,4 +28,4 @@ cards.json
 .DS_Store
 
 # The PUBLIC site (what deploys) is: index.html, storefront.html,
-# collection.js, prices.js, reviews.js, photos/  — plus .gitignore and DEPLOY.md.
+# collection.js, tiers.js, reviews.js, photos/  — plus .gitignore and DEPLOY.md.
