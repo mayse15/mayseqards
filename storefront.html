@@ -112,6 +112,10 @@ body{
 .sel:focus{border-color:var(--line-brass);}
 .spacer{flex:1;}
 .result-count{font-family:var(--display);font-weight:300;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);}
+.group-block{margin-bottom:34px;}
+.group-block:last-child{margin-bottom:0;}
+.group-head{font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line-brass);display:flex;align-items:baseline;gap:11px;}
+.group-count{font-family:var(--display);font-weight:300;font-size:12px;color:var(--muted-2);letter-spacing:.1em;}
 
 /* Grid */
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:16px;}
@@ -155,6 +159,23 @@ body{
 
 .empty{text-align:center;padding:70px 20px;color:var(--muted);}
 .empty h3{font-family:var(--display);font-weight:500;font-size:20px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
+
+/* ── Wall of Cards (sold + seller reviews) ── */
+.wall-head{text-align:center;margin-bottom:30px;}
+.wall-title{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.16em;text-transform:uppercase;background:linear-gradient(100deg,var(--brass),var(--brass-bright),#dff0fb,var(--brass));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 9s linear infinite;}
+.wall-sub{font-size:13px;color:var(--muted);margin-top:9px;letter-spacing:.02em;}
+.section-label.rev-sep{margin-top:42px;}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.review-card{position:relative;background:linear-gradient(165deg,rgba(105,160,200,.06),rgba(20,20,24,.5));border:1px solid var(--line-brass);border-radius:7px;padding:18px 20px 16px;}
+.review-card::before{content:'\201C';position:absolute;top:4px;left:13px;font-family:Georgia,serif;font-size:44px;line-height:1;color:rgba(105,160,200,.16);pointer-events:none;}
+.rev-stars{font-size:13px;letter-spacing:2px;color:var(--brass-bright);margin-bottom:10px;position:relative;}
+.rev-stars-off{color:var(--muted-2);}
+.rev-text{font-size:14px;color:var(--text);line-height:1.62;font-style:italic;position:relative;}
+.rev-meta{margin-top:13px;font-family:var(--display);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.rev-author{color:var(--brass);}
+.rev-date{color:var(--muted-2);}
+.rev-ref{margin-top:6px;font-size:10.5px;color:var(--muted-2);letter-spacing:.02em;}
+@media(max-width:640px){.reviews-grid{grid-template-columns:1fr;}}
 
 /* ── Market Watch ── */
 .market-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
@@ -335,7 +356,7 @@ body{
   <nav class="site-nav">
     <button class="nav-btn active" data-view="shop">The Collection</button>
     <button class="nav-btn" data-view="market">Market Watch</button>
-    <button class="nav-btn" data-view="sold">Sold Archive</button>
+    <button class="nav-btn" data-view="sold">Wall of Cards</button>
   </nav>
 </header>
 
@@ -364,10 +385,19 @@ body{
       <button class="filter-pill" id="forSaleToggle"><span class="dot"></span> For Sale Only</button>
       <select class="sel" id="filter-player"><option value="">All Players</option></select>
       <select class="sel" id="filter-set"><option value="">All Sets</option></select>
+      <select class="sel" id="filter-type"><option value="">All Types</option></select>
+      <select class="sel" id="filter-team"><option value="">All Teams</option></select>
       <select class="sel" id="sort">
         <option value="featured">Sort: Featured</option>
         <option value="player-asc">Player A → Z</option>
         <option value="player-desc">Player Z → A</option>
+      </select>
+      <select class="sel" id="group-by">
+        <option value="">Group: None</option>
+        <option value="set">Group: Set</option>
+        <option value="player">Group: Player</option>
+        <option value="cat">Group: Card type</option>
+        <option value="team">Group: Team</option>
       </select>
       <span class="spacer"></span>
       <span class="result-count" id="result-count"></span>
@@ -382,11 +412,18 @@ body{
     <div id="market-body"></div>
   </div>
 
-  <!-- sold -->
+  <!-- wall of cards (sold + seller reviews) -->
   <div id="view-sold" style="display:none">
-    <div class="section-label">Sold Archive</div>
+    <div class="wall-head">
+      <div class="wall-title">◆ The Wall of Cards</div>
+      <div class="wall-sub">Cards that found new homes — and what buyers say about dealing with me.</div>
+    </div>
+    <div class="section-label"><span class="accent">Sold</span> &nbsp;Cards</div>
     <div class="card-grid" id="sold-grid"></div>
-    <div class="empty" id="sold-empty"><h3>No sold cards yet</h3><p>Cards move here once they leave the vault.</p></div>
+    <div class="empty" id="sold-empty"><h3>No sold cards yet</h3><p>Cards move here once they sell.</p></div>
+    <div class="section-label rev-sep"><span class="accent">Seller</span> &nbsp;Reviews</div>
+    <div class="reviews-grid" id="reviews-grid"></div>
+    <div class="empty" id="reviews-empty"><h3>No reviews yet</h3><p>Verified buyer feedback will appear here.</p></div>
   </div>
 </section>
 
@@ -397,10 +434,12 @@ body{
 <!-- data -->
 <script src="collection.js"></script>
 <script src="values.js"></script>
+<script src="reviews.js"></script>
 <script>
 const EBAY_STORE_URL = 'https://www.ebay.com/usr/MayseQards';   // main eBay storefront
 const CARDS = (window.CARDS || []);
 const MARKET = (window.MARKET || {cards:{}});
+const REVIEWS = (window.REVIEWS || []);
 
 /* ── helpers ── */
 const $ = id => document.getElementById(id);
@@ -474,15 +513,20 @@ function tileHTML(c,opts){
 }
 
 /* ── state ── */
-let searchQuery='', sortMode='featured', fPlayer='', fSet='', forSaleOnly=false;
+let searchQuery='', sortMode='featured', fPlayer='', fSet='', fType='', fTeam='', groupMode='', forSaleOnly=false;
 
 /* ── build filter dropdowns from data ── */
 function buildFilters(){
   const live=CARDS.filter(c=>c.status!=='sold');
   const players=[...new Set(live.map(c=>c.player))].sort();
   const sets=[...new Set(live.map(c=>setLabel(c.pack)))].sort();
+  const typeOrder=['Base','Parallel/Refractor','Hits','Specialty'];
+  const types=typeOrder.filter(t=>live.some(c=>(c.cat||'')===t));
+  const teams=[...new Set(live.map(c=>c.team).filter(Boolean))].sort();
   $('filter-player').innerHTML='<option value="">All Players</option>'+players.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join('');
   $('filter-set').innerHTML='<option value="">All Sets</option>'+sets.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+  $('filter-type').innerHTML='<option value="">All Types</option>'+types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
+  $('filter-team').innerHTML='<option value="">All Teams</option>'+teams.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
 }
 
 /* ── render headliners ── */
@@ -494,14 +538,34 @@ function renderHeadliners(){
 }
 
 /* ── render collection ── */
+function groupKey(c,mode){
+  if(mode==='set') return setLabel(c.pack);
+  if(mode==='player') return c.player;
+  if(mode==='cat') return c.cat||'Other';
+  if(mode==='team') return c.team||'Other';
+  return '';
+}
+function renderGroups(cards,mode){
+  const groups={};
+  cards.forEach(c=>{ const k=groupKey(c,mode); (groups[k]=groups[k]||[]).push(c); });
+  let names=Object.keys(groups);
+  if(mode==='cat'){ const order=['Specialty','Hits','Parallel/Refractor','Base']; const rank=x=>{const i=order.indexOf(x);return i<0?99:i;}; names.sort((a,b)=>rank(a)-rank(b)); }
+  else names.sort();
+  return names.map(name=>`<div class="group-block">
+    <div class="group-head">${esc(name)} <span class="group-count">${groups[name].length}</span></div>
+    <div class="card-grid">${groups[name].map(c=>tileHTML(c)).join('')}</div>
+  </div>`).join('');
+}
 function renderShop(){
   let cards=CARDS.filter(c=>c.status!=='sold');
   if(forSaleOnly) cards=cards.filter(c=>c.status==='forSale'&&c.listing);
   if(fPlayer) cards=cards.filter(c=>c.player===fPlayer);
   if(fSet) cards=cards.filter(c=>setLabel(c.pack)===fSet);
+  if(fType) cards=cards.filter(c=>(c.cat||'')===fType);
+  if(fTeam) cards=cards.filter(c=>(c.team||'')===fTeam);
   if(searchQuery){
     const q=searchQuery.toLowerCase();
-    cards=cards.filter(c=>c.player.toLowerCase().includes(q)||c.type.toLowerCase().includes(q)||c.pack.toLowerCase().includes(q));
+    cards=cards.filter(c=>c.player.toLowerCase().includes(q)||c.type.toLowerCase().includes(q)||c.pack.toLowerCase().includes(q)||(c.team||'').toLowerCase().includes(q));
   }
   cards=[...cards].sort((a,b)=>{
     if(sortMode==='player-asc') return a.player.localeCompare(b.player);
@@ -510,8 +574,11 @@ function renderShop(){
   });
 
   const grid=$('shop-grid'), empty=$('shop-empty');
-  if(cards.length){ grid.innerHTML=cards.map(c=>tileHTML(c)).join(''); empty.style.display='none'; }
-  else { grid.innerHTML=''; empty.style.display='block'; }
+  if(cards.length){
+    empty.style.display='none';
+    if(groupMode){ grid.className='group-wrap'; grid.innerHTML=renderGroups(cards,groupMode); }
+    else { grid.className='card-grid'; grid.innerHTML=cards.map(c=>tileHTML(c)).join(''); }
+  } else { grid.className='card-grid'; grid.innerHTML=''; empty.style.display='block'; }
   $('result-count').textContent=cards.length+(cards.length===1?' card':' cards');
 
   const listed=CARDS.filter(c=>c.status==='forSale'&&c.listing).length;
@@ -525,6 +592,25 @@ function renderSold(){
   const sold=CARDS.filter(c=>c.status==='sold');
   const grid=$('sold-grid'), empty=$('sold-empty');
   if(sold.length){ grid.innerHTML=sold.map(c=>tileHTML(c,{sold:true})).join(''); empty.style.display='none'; }
+  else { grid.innerHTML=''; empty.style.display='block'; }
+  renderReviews();
+}
+function reviewCard(r){
+  const n=Math.max(0,Math.min(5,r.stars==null?5:r.stars));
+  const stars=`<div class="rev-stars">${'★'.repeat(n)}<span class="rev-stars-off">${'★'.repeat(5-n)}</span></div>`;
+  const ref=r.card?CARDS.find(c=>c.id===r.card):null;
+  const refTag=ref?`<div class="rev-ref">on ${esc(ref.player)} · ${esc(ref.pack)}</div>`:'';
+  const date=r.date?fmtDateFull(r.date):'';
+  return `<div class="review-card">
+    ${stars}
+    <div class="rev-text">${esc(r.text)}</div>
+    <div class="rev-meta"><span class="rev-author">${esc(r.author||'eBay buyer')}</span>${date?` · <span class="rev-date">${esc(date)}</span>`:''}</div>
+    ${refTag}
+  </div>`;
+}
+function renderReviews(){
+  const grid=$('reviews-grid'), empty=$('reviews-empty');
+  if(REVIEWS.length){ grid.innerHTML=REVIEWS.map(reviewCard).join(''); empty.style.display='none'; }
   else { grid.innerHTML=''; empty.style.display='block'; }
 }
 
@@ -692,6 +778,9 @@ $('search').addEventListener('input',e=>{
 $('forSaleToggle').addEventListener('click',e=>{ forSaleOnly=!forSaleOnly; e.currentTarget.classList.toggle('active',forSaleOnly); renderShop(); });
 $('filter-player').addEventListener('change',e=>{ fPlayer=e.target.value; renderShop(); });
 $('filter-set').addEventListener('change',e=>{ fSet=e.target.value; renderShop(); });
+$('filter-type').addEventListener('change',e=>{ fType=e.target.value; renderShop(); });
+$('filter-team').addEventListener('change',e=>{ fTeam=e.target.value; renderShop(); });
+$('group-by').addEventListener('change',e=>{ groupMode=e.target.value; renderShop(); });
 $('sort').addEventListener('change',e=>{ sortMode=e.target.value; renderShop(); });
 
 /* ── Card Spotlight — "what is it, what's it worth, what's the ceiling" ── */
