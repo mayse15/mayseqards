@@ -16,6 +16,8 @@ checklists.json
 # private value comps (sources/ranges/estimate basis) — only the derived tiers.js is public
 values.js
 gen_tiers.py
+# private owner dashboard (value + P&L) — never deployed
+dashboard.html
 
 # ── Legacy / superseded drafts ──
 mayseqards.html
