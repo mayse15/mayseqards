@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MayseQards — The Vault</title>
-<meta name="description" content="A curated arsenal of basketball cards. Topps Chrome, Cactus Jack, Panini Prizm and rookie cards — acquired on request via eBay.">
+<meta name="description" content="A curated basketball card collection — Topps Chrome, Cactus Jack, Panini Prizm and rookies. Select cards for sale on eBay; the rest open to offers.">
 <meta property="og:title" content="MayseQards — The Vault">
-<meta property="og:description" content="A curated arsenal of basketball cards — acquired on request.">
+<meta property="og:description" content="A curated basketball card collection — select cards for sale on eBay, the rest open to offers.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,6 +49,15 @@ body{
 @keyframes sheen{to{background-position:300% 0;}}
 .rule{width:64px;height:2px;margin:20px auto 0;background:linear-gradient(90deg,transparent,var(--brass),transparent);}
 .tagline{margin-top:16px;font-size:14.5px;color:var(--muted);font-weight:400;line-height:1.55;letter-spacing:.01em;}
+.inq-link{color:var(--brass-bright);text-decoration:none;border-bottom:1px solid var(--line-brass);transition:border-color .15s;}
+.inq-link:hover{border-bottom-color:var(--brass-bright);}
+/* Inquiry form */
+.inquire{max-width:720px;margin:76px auto 0;padding:0 24px;}
+.inquire .section-label{margin-bottom:14px;}
+.inquire-sub{font-family:var(--body);font-size:14px;color:var(--muted);line-height:1.6;margin:0 0 24px;max-width:60ch;}
+.inq-btn{display:inline-flex;align-items:center;gap:10px;background:var(--brass);color:#0a0e13;border:none;border-radius:10px;padding:15px 32px;font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .15s;}
+.inq-btn:hover{background:var(--brass-bright);}
+.inq-btn svg{flex:0 0 auto;}
 .header-stats{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:16px;flex-wrap:wrap;font-family:var(--display);font-weight:300;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
 .header-stats b{color:var(--text);font-weight:600;}
 .hdot{width:3px;height:3px;border-radius:50%;background:var(--brass);opacity:.6;}
@@ -116,6 +125,11 @@ body{
 .group-block:last-child{margin-bottom:0;}
 .group-head{font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line-brass);display:flex;align-items:baseline;gap:11px;}
 .group-count{font-family:var(--display);font-weight:300;font-size:12px;color:var(--muted-2);letter-spacing:.1em;}
+.shop-section{margin-bottom:40px;}
+.shop-section:last-child{margin-bottom:0;}
+.shop-section.sec-listed .group-head{color:var(--brass);}
+.shop-section.sec-listed .group-head svg{vertical-align:-1px;opacity:.9;}
+.shop-section:not(.sec-listed) .group-head{color:var(--muted);border-bottom-color:var(--line);}
 
 /* Grid */
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:16px;}
@@ -331,10 +345,10 @@ body{
 
 <!-- ══ Header ══ -->
 <header class="site-header">
-  <div class="eyebrow">Private Collection · The Vault</div>
+  <div class="eyebrow">Collection &amp; Storefront · The Vault</div>
   <h1 class="wordmark">MayseQards</h1>
   <div class="rule"></div>
-  <p class="tagline">A curated arsenal of basketball cards — acquired on request.</p>
+  <p class="tagline">A curated basketball card collection — select pieces are listed for sale on eBay, and the rest are open to offers. See one you want? <a href="mailto:maysonquartlebaum@me.com?subject=MayseQards%20%E2%80%94%20Card%20Inquiry&body=Card(s)%20of%20interest%3A%0A%0AYour%20offer%3A%0A%0ABest%20way%20to%20reach%20you%3A%0A" class="inq-link">Inquire</a>.</p>
   <div class="header-stats">
     <span><b id="s-total">0</b> in the vault</span>
     <span class="hdot"></span>
@@ -358,7 +372,8 @@ body{
 
   <nav class="site-nav">
     <button class="nav-btn active" data-view="shop">The Collection</button>
-    <button class="nav-btn" data-view="market">Market Watch</button>
+    <!-- Market Watch hidden until the value/comp data is reliable enough to publish. Restore this button to re-enable. -->
+    <!-- <button class="nav-btn" data-view="market">Market Watch</button> -->
     <button class="nav-btn" data-view="sold">Wall of Cards</button>
   </nav>
 </header>
@@ -424,10 +439,20 @@ body{
     <div class="section-label"><span class="accent">Sold</span> &nbsp;Cards</div>
     <div class="card-grid" id="sold-grid"></div>
     <div class="empty" id="sold-empty"><h3>No sold cards yet</h3><p>Cards move here once they sell.</p></div>
-    <div class="section-label rev-sep"><span class="accent">Seller</span> &nbsp;Reviews</div>
+    <div class="section-label rev-sep" id="rev-sep"><span class="accent">Seller</span> &nbsp;Reviews</div>
     <div class="reviews-grid" id="reviews-grid"></div>
     <div class="empty" id="reviews-empty"><h3>No reviews yet</h3><p>Verified buyer feedback will appear here.</p></div>
   </div>
+</section>
+
+<!-- inquire / submission form -->
+<section class="inquire" id="inquire">
+  <div class="section-label"><span class="accent">✉</span> &nbsp;Inquire About a Card</div>
+  <p class="inquire-sub">Interested in a card — listed or not? Send an offer or a question and I'll get back to you. Sales finalize through eBay for buyer &amp; seller protection.</p>
+  <a class="inq-btn" href="mailto:maysonquartlebaum@me.com?subject=MayseQards%20%E2%80%94%20Card%20Inquiry&body=Card(s)%20of%20interest%3A%0A%0AYour%20offer%3A%0A%0ABest%20way%20to%20reach%20you%3A%0A">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+    Email to Inquire
+  </a>
 </section>
 
 <footer class="site-footer">
@@ -440,7 +465,10 @@ body{
 <script src="reviews.js"></script>
 <script>
 const EBAY_STORE_URL = 'https://www.ebay.com/usr/MayseQards';   // main eBay storefront
-const CARDS = (window.CARDS || []);
+// Buyers only see cards that have a photo. Photoless cards are hidden from the public
+// site and reappear automatically once a photo is added to collection.js. (The owner's
+// full inventory — including photoless cards — lives in the private dashboard.html.)
+const CARDS = (window.CARDS || []).filter(c => c.photo && String(c.photo).trim());
 const TIERS = (window.TIERS || {vault:[],bin:[]});
 /* Hype Top 10 (most → least). Reorder these ids to re-rank.
    C002 Ace Bailey Red Ref /5 · C001 Luka Gold /50 · C017 Wemby Refractor #59 · C026 Cooper Flagg RC
@@ -504,7 +532,7 @@ function tileHTML(c,opts){
     link=`<span class="btn-ebay is-sold">Sold${sp}${sd}</span>`;
   }
   else if(hasLink) link=`<a class="btn-ebay" href="${esc(c.listing)}" target="_blank" rel="noopener noreferrer">${extIcon} View on ${mp}</a>`;
-  else link=`<span class="btn-ebay is-pending">eBay Link <span class="soon">SOON</span></span>`;
+  else link='';   // not listed → no eBay icon (only listed cards get a link)
 
   const ribbon=headliner?`<div class="headliner-ribbon">★ Headliner</div>`:'';
   const soldOv=sold?`<div class="sold-overlay"><span class="sold-stamp">SOLD</span></div>`:'';
@@ -539,9 +567,14 @@ function buildFilters(){
 
 /* ── render headliners ── */
 function renderHeadliners(){
-  const feat=CARDS.filter(c=>c.featured&&c.status!=='sold').slice(0,3);
+  // Headliners = the highest-value LISTED cards. The value ranking is baked privately into
+  // tiers.js (ids only — no dollar amounts on the public site); falls back to the featured flag.
+  const byId=id=>CARDS.find(c=>c.id===id);
+  let feat=(TIERS.headliners||[]).map(byId).filter(c=>c&&c.status==='forSale'&&c.listing).slice(0,3);
+  if(!feat.length) feat=CARDS.filter(c=>c.featured&&c.status!=='sold').slice(0,3);
   const grid=$('headliner-grid');
   if(!feat.length){ $('headliners').style.display='none'; return; }
+  $('headliners').style.display='';
   grid.innerHTML=feat.map(c=>tileHTML(c,{headliner:true})).join('');
 }
 
@@ -581,18 +614,36 @@ function renderShop(){
     return (b.featured?1:0)-(a.featured?1:0); // featured first, else source order
   });
 
-  const grid=$('shop-grid'), empty=$('shop-empty');
-  if(cards.length){
-    empty.style.display='none';
-    if(groupMode){ grid.className='group-wrap'; grid.innerHTML=renderGroups(cards,groupMode); }
-    else { grid.className='card-grid'; grid.innerHTML=cards.map(c=>tileHTML(c)).join(''); }
-  } else { grid.className='card-grid'; grid.innerHTML=''; empty.style.display='block'; }
-  $('result-count').textContent=cards.length+(cards.length===1?' card':' cards');
+  // Split into two sections: cards actually listed for sale vs the rest of the collection.
+  const isListed=c=>c.status==='forSale'&&c.listing&&c.listing.trim();
+  const listedCards=cards.filter(isListed);
+  const collCards=cards.filter(c=>!isListed(c));
 
-  const listed=CARDS.filter(c=>c.status==='forSale'&&c.listing).length;
-  $('s-total').textContent=CARDS.length;
-  $('s-listed').textContent=listed;
-  $('shop-label').innerHTML = listed?`<span class="accent">${listed}</span>&nbsp; Listed for Sale`:`The Collection — ${CARDS.filter(c=>c.status!=='sold').length} cards`;
+  const grid=$('shop-grid'), empty=$('shop-empty');
+  grid.className='shop-sections';
+  let html='';
+  if(listedCards.length) html+=shopSection('Listed for Sale', listedCards, true);
+  if(!forSaleOnly && collCards.length) html+=shopSection('In the Collection', collCards, false);
+  if(html){ empty.style.display='none'; grid.innerHTML=html; }
+  else { grid.innerHTML=''; empty.style.display='block'; }
+
+  const shown=forSaleOnly?listedCards.length:cards.length;
+  $('result-count').textContent=shown+(shown===1?' card':' cards');
+
+  const totalListed=CARDS.filter(isListed).length;
+  if($('s-total')) $('s-total').textContent=CARDS.length;
+  if($('s-listed')) $('s-listed').textContent=totalListed;
+  $('shop-label').innerHTML = totalListed
+    ? `<span class="accent">${totalListed}</span>&nbsp;Listed for Sale&nbsp; · &nbsp;${CARDS.length} in the Collection`
+    : `The Collection — ${CARDS.length} cards`;
+}
+// one labeled section (Listed for Sale / In the Collection), honoring the group-by mode
+function shopSection(title, list, isLive){
+  const inner = groupMode
+    ? `<div class="group-wrap">${renderGroups(list,groupMode)}</div>`
+    : `<div class="card-grid">${list.map(c=>tileHTML(c)).join('')}</div>`;
+  const tag = isLive ? `${extIcon} ` : '';
+  return `<div class="shop-section${isLive?' sec-listed':''}"><div class="group-head">${tag}${title} <span class="group-count">${list.length}</span></div>${inner}</div>`;
 }
 
 /* ── render sold ── */
@@ -617,9 +668,9 @@ function reviewCard(r){
   </div>`;
 }
 function renderReviews(){
-  const grid=$('reviews-grid'), empty=$('reviews-empty');
-  if(REVIEWS.length){ grid.innerHTML=REVIEWS.map(reviewCard).join(''); empty.style.display='none'; }
-  else { grid.innerHTML=''; empty.style.display='block'; }
+  const grid=$('reviews-grid'), empty=$('reviews-empty'), sep=$('rev-sep');
+  if(REVIEWS.length){ grid.innerHTML=REVIEWS.map(reviewCard).join(''); empty.style.display='none'; if(sep)sep.style.display=''; }
+  else { grid.innerHTML=''; empty.style.display='none'; if(sep)sep.style.display='none'; }   // hide the whole reviews block until real feedback exists
 }
 
 /* ── market watch ── */
@@ -667,8 +718,10 @@ function renderMarket(){
   // compact row for the low-price bin popup (with eBay buy link)
   const binRow=(c)=>{
     const hasLink=c.listing&&c.listing.trim();
-    const url=hasLink?c.listing:EBAY_STORE_URL;
-    const buy=`<a class="bin-buy" href="${esc(url)}" target="_blank" rel="noopener noreferrer" title="${hasLink?'View this item on eBay':'Shop the eBay store'}">${extIcon}<span>eBay</span></a>`;
+    // only listed cards link to eBay; unlisted bin cards show no link (they aren't on eBay)
+    const buy=hasLink
+      ? `<a class="bin-buy" href="${esc(c.listing)}" target="_blank" rel="noopener noreferrer" title="View this item on eBay">${extIcon}<span>eBay</span></a>`
+      : '';
     return `<div class="mv-row"><div class="mv-name"><div class="mv-player">${esc(c.player)} <span class="mv-set">${esc(c.pack)}</span></div><div class="mv-sub">${esc(c.type)} ${gradeChip(c)}</div></div>${buy}</div>`;
   };
 
@@ -795,8 +848,13 @@ function spotlightHTML(c){
     ? `<img src="${esc(c.photo)}" alt="${esc(c.player)}" onerror="this.style.display='none'">`
     : `<div class="holo"><div class="holo-shimmer"></div><div class="card-initial">${esc(c.player[0])}</div></div>`;
   const hasLink=c.listing&&c.listing.trim();
-  const ebayUrl=hasLink?c.listing:EBAY_STORE_URL;
-  const ebayLbl=hasLink?('View on '+mpLabel(c.listing)):'Shop on eBay';
+  // Personal-collection cards → no buy/inquire path at all (not for sale). Listed → real eBay link.
+  // Otherwise (in the collection, not personal) → email inquiry for that specific card.
+  const inquireHref='mailto:maysonquartlebaum@me.com?subject='+encodeURIComponent('MayseQards — Inquiry: '+c.player)+'&body='+encodeURIComponent('Card of interest: '+c.player+' — '+c.pack+' '+c.type+'\n\nYour offer:\n\nBest way to reach you:\n');
+  const ctaBtn = c.personal ? ''
+    : hasLink
+    ? `<a class="btn-ebay" href="${esc(c.listing)}" target="_blank" rel="noopener noreferrer">${extIcon} View on ${mpLabel(c.listing)}</a>`
+    : `<a class="btn-ebay btn-inquire" href="${inquireHref}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg> Email to Inquire</a>`;
   const upside=c.grade
     ? `Graded ${esc(c.grade)} — a professionally slabbed copy.`
     : 'Raw copy. Graded (PSA/BGS) examples of this card sell for more.';
@@ -814,7 +872,7 @@ function spotlightHTML(c){
     </div>
     <div class="cs-body">
       <div class="cs-upside"><span class="cs-up-ic">▲</span><span>${upside}</span></div>
-      <div class="cs-btns"><a class="btn-ebay" href="${esc(ebayUrl)}" target="_blank" rel="noopener noreferrer">${extIcon} ${ebayLbl}</a></div>
+      ${ctaBtn?`<div class="cs-btns">${ctaBtn}</div>`:''}
     </div>
   </div>`;
 }
@@ -840,6 +898,13 @@ buildFilters();
 wireEbayStore();
 renderHeadliners();
 renderShop();
+
+// Wall of Cards (Sold) tab stays hidden until at least one card has sold;
+// it reappears automatically once a sale is recorded (a card flips to status:"sold").
+(function(){
+  const soldBtn=document.querySelector('.nav-btn[data-view="sold"]');
+  if(soldBtn && !CARDS.some(c=>c.status==='sold')) soldBtn.style.display='none';
+})();
 </script>
 </body>
 </html>

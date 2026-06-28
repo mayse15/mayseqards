@@ -3,10 +3,13 @@
 The site is fully static — just HTML/CSS/JS + images — so any static host works, free.
 
 ## What ships (and what never does)
-**Public files (the site):** `index.html`, `storefront.html`, `collection.js`, `values.js`, `photos/`
+**Public files (the site):** `index.html`, `storefront.html`, `collection.js`, `tiers.js`, `reviews.js`, `photos/`
 `index.html` redirects `/` → `storefront.html` (the real page), so the site loads at the host root.
+`collection.js`/`tiers.js` carry NO dollar values — only card identity + public tier membership.
 
 **Never published** — these are listed in `.gitignore`, so a `git`-based deploy excludes them automatically:
+`values.js` (PRIVATE comps/dollar values), `dashboard.html` + `gen_dashboard.py` (private P&L), `home.html`
+(owner portal), `gen_tiers.py`, `inventory.*` + `gen_inventory.py`, `SHIPPING.md`, `photo-intake-log.json`,
 `Card_Collection.xlsx` (private cost/value history), `serve.py`, `comp-lookup.html`, `checklists.json`,
 `HANDOFF.md`, `MayseQards_BuildBrief.md`, `.claude/`, legacy `mayseqards*.html` / `cards.json`, `*.dmg`, `.DS_Store`.
 
@@ -37,7 +40,7 @@ Because of `.gitignore`, only the public files are in the repo, so only they go 
 ## Option C — Drag-and-drop (no Git) — build a clean folder first
 From this folder, copy only the public files into `dist/`:
 ```
-rm -rf dist && mkdir dist && cp index.html storefront.html collection.js values.js dist/ && cp -R photos dist/
+rm -rf dist && mkdir dist && cp index.html storefront.html collection.js tiers.js reviews.js dist/ && cp -R photos dist/
 ```
 Then drag the **`dist/`** folder onto app.netlify.com/drop (or Cloudflare Pages "Upload assets"). Re-run the copy
 and re-drop whenever cards change. (`dist/` is safe to delete; it's just an export.)

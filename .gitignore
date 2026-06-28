@@ -5,6 +5,7 @@ Card_Collection.xlsx
 # ── Internal project files (kept local, not part of the public site) ──
 HANDOFF.md
 CHEATSHEET.md
+SHIPPING.md
 MayseQards_BuildBrief.md
 EBAY-AUTOMATION-BRIEF.md
 .claude/
@@ -35,3 +36,35 @@ cards.json
 
 # The PUBLIC site (what deploys) is: index.html, storefront.html,
 # collection.js, tiers.js, reviews.js, photos/  — plus .gitignore and DEPLOY.md.
+
+# owner-only sourcing deal-scanner (never publish)
+deals-watchlist.md
+deals-report-*.md
+deals-seen.json
+
+# owner-only market-intel reports (never publish)
+intel-report-*.md
+
+# owner-only agents dashboard status feed (never publish)
+agents-status.json
+
+# internal agent tooling docs (never publish)
+AGENT-DATA-EXTRACTION.md
+
+# private master inventory record (has valuations) + its generator (never publish)
+inventory.csv
+inventory.md
+gen_inventory.py
+
+# bulk photo-upload tracker (which drive photos are processed) — never publish
+photo-intake-log.json
+
+# full-res card originals live on the external drive — never in the repo
+photos-originals/
+*-orig.jpg
+*-original.*
+youpick-map.json
+youpick_description.txt
+pack-pools.json
+pack_rookie_desc.txt
+pack_insert_desc.txt
