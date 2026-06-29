@@ -465,10 +465,11 @@ body{
 <script src="reviews.js"></script>
 <script>
 const EBAY_STORE_URL = 'https://www.ebay.com/usr/MayseQards';   // main eBay storefront
-// Buyers only see cards that have a photo. Photoless cards are hidden from the public
-// site and reappear automatically once a photo is added to collection.js. (The owner's
-// full inventory — including photoless cards — lives in the private dashboard.html.)
-const CARDS = (window.CARDS || []).filter(c => c.photo && String(c.photo).trim());
+// Buyers only see cards that have a photo and aren't flagged "hidden". Photoless or
+// hidden cards (e.g. front-only cards still missing a back photo) stay off the public
+// site and reappear automatically once fixed in collection.js. (The owner's full
+// inventory — including photoless/hidden cards — lives in the private dashboard.html.)
+const CARDS = (window.CARDS || []).filter(c => c.photo && String(c.photo).trim() && !c.hidden);
 const TIERS = (window.TIERS || {vault:[],bin:[]});
 /* Hype Top 10 (most → least). Reorder these ids to re-rank.
    C002 Ace Bailey Red Ref /5 · C001 Luka Gold /50 · C017 Wemby Refractor #59 · C026 Cooper Flagg RC
