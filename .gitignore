@@ -72,3 +72,5 @@ price-overrides.json
 build-list.json
 build-done.txt
 .build-done.txt
+print_label.py
+*_4x6.pdf

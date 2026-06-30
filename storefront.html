@@ -600,7 +600,7 @@ function renderGroups(cards,mode){
 }
 function renderShop(){
   let cards=CARDS.filter(c=>c.status!=='sold');
-  if(forSaleOnly) cards=cards.filter(c=>c.status==='forSale'&&c.listing);
+  if(forSaleOnly) cards=cards.filter(c=>c.listing&&c.listing.trim());
   if(fPlayer) cards=cards.filter(c=>c.player===fPlayer);
   if(fSet) cards=cards.filter(c=>setLabel(c.pack)===fSet);
   if(fType) cards=cards.filter(c=>(c.cat||'')===fType);
@@ -616,7 +616,7 @@ function renderShop(){
   });
 
   // Split into two sections: cards actually listed for sale vs the rest of the collection.
-  const isListed=c=>c.status==='forSale'&&c.listing&&c.listing.trim();
+  const isListed=c=>c.status!=='sold'&&c.listing&&c.listing.trim();
   const listedCards=cards.filter(isListed);
   const collCards=cards.filter(c=>!isListed(c));
 
