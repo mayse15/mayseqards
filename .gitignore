@@ -68,3 +68,7 @@ youpick_description.txt
 pack-pools.json
 pack_rookie_desc.txt
 pack_insert_desc.txt
+price-overrides.json
+build-list.json
+build-done.txt
+.build-done.txt
