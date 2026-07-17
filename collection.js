@@ -133,6 +133,5 @@ window.CARDS = [
   {"id":"C098","player":"Jalen Brunson","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Gold Refractor SSP 12/50 #4","cat":"Specialty","team":"Knicks","listing":"","photo":"photos/C098.jpg","photoBack":"photos/C098_back.jpg","status":"forSale"},
   {"id":"C099","player":"Giannis Antetokounmpo","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Teal Speckle 242/299 #17","cat":"Specialty","team":"Bucks","listing":"","photo":"photos/C099.jpg","photoBack":"photos/C099_back.jpg","lot":true,"status":"forSale"},
   {"id":"C100","player":"Walker Kessler","pack":"2022-23 Panini Spectra","type":"Rookie Patch Auto 21/35 #207","cat":"Hits","team":"Jazz","listing":"","photo":"photos/C100.jpg","photoBack":"photos/C100_back.jpg","status":"forSale"},
-  {"id":"C101","player":"Payton Pritchard","pack":"2020-21 Panini Prizm","type":"Green Prizm #257","cat":"Parallel/Refractor","team":"Celtics","listing":"","photo":"photos/C101.jpg","photoBack":"photos/C101_back.jpg","grade":"PSA 9","status":"forSale"},
-  {"id":"C102","player":"De'Aaron Fox","pack":"2025-26 Topps Finest","type":"Masters Orange Geometric Auto /15","cat":"Hits","team":"Spurs","listing":"","photo":"","status":"forSale"}
+  {"id":"C101","player":"Payton Pritchard","pack":"2020-21 Panini Prizm","type":"Green Prizm #257","cat":"Parallel/Refractor","team":"Celtics","listing":"","photo":"photos/C101.jpg","photoBack":"photos/C101_back.jpg","grade":"PSA 9","status":"forSale"}
 ];
