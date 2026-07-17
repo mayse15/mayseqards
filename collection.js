@@ -142,5 +142,6 @@ window.CARDS = [
   {"id":"C108","player":"Cooper Flagg","pack":"2025-26 Bowman","type":"RC #1","cat":"Base","team":"Mavericks","listing":"https://www.ebay.com/itm/137463724307","photo":"photos/C108.jpg","photoBack":"photos/C108_back.jpg","status":"forSale"},
   {"id":"C109","player":"Cedric Coward","pack":"2025-26 Bowman","type":"Rookie of the Year Favorites #RY-11 RC","cat":"Specialty","team":"Grizzlies","listing":"https://www.ebay.com/itm/137463724319","photo":"photos/C109.jpg","photoBack":"photos/C109_back.jpg","status":"forSale"},
   {"id":"C110","player":"Ace Bailey","pack":"2025-26 Bowman","type":"Greatness Loading #GL-5 RC","cat":"Specialty","team":"Jazz","listing":"https://www.ebay.com/itm/137463724308","photo":"photos/C110.jpg","photoBack":"photos/C110_back.jpg","status":"forSale"},
-  {"id":"C111","player":"Kawhi Leonard","pack":"2025-26 Topps NBA Hoops","type":"Net 2 Net Insert","cat":"Specialty","team":"Clippers","listing":"https://www.ebay.com/itm/137463712077","photo":"photos/C111.jpg","photoBack":"photos/C111_back.jpg","status":"forSale"}
+  {"id":"C111","player":"Kawhi Leonard","pack":"2025-26 Topps NBA Hoops","type":"Net 2 Net Insert","cat":"Specialty","team":"Clippers","listing":"https://www.ebay.com/itm/137463712077","photo":"photos/C111.jpg","photoBack":"photos/C111_back.jpg","status":"forSale"},
+  {"id":"C112","player":"Payton Pritchard","pack":"2024-25 Panini Prizm Black","type":"Mojo Prizm SP 22/25 #212","cat":"Parallel/Refractor","team":"Celtics","listing":"","photo":"","grade":"PSA 10","status":"collection"}
 ];
