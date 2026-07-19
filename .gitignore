@@ -4,6 +4,7 @@ Card_Collection.xlsx
 
 # ── Internal project files (kept local, not part of the public site) ──
 HANDOFF.md
+BUSINESS-PLAN.md
 CHEATSHEET.md
 SHIPPING.md
 MayseQards_BuildBrief.md
@@ -74,3 +75,16 @@ build-done.txt
 .build-done.txt
 print_label.py
 *_4x6.pdf
+
+catalysts.js
+
+selldesk.json
+reinvest.json
+gradeflip.json
+wallet.json
+
+# ── 24/7 scanner + eBay store manager (SECRETS — never publish) ──
+# scanner/.cl-profile = live Card Ladder login session; ebay-manager/config.json + .tokens.json = eBay
+# API keyset + OAuth refresh token. These must NEVER hit the public GitHub Pages repo.
+scanner/
+ebay-manager/
