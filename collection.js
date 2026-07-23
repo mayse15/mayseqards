@@ -37,7 +37,7 @@
 
 window.CARDS = [
   {"id":"C001","player":"Luka Doncic","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Gold Refractor 43/50 #47","cat":"Specialty","team":"Lakers","listing":"https://www.ebay.com/itm/137465808331","photo":"photos/C001.jpg","photoBack":"photos/C001_back.jpg","status":"sold","soldPrice":800,"soldDate":"2026-07-10"},
-  {"id":"C002","player":"Ace Bailey","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Red Refractor 2/5 #65","cat":"Specialty","team":"Jazz","listing":"https://www.ebay.com/itm/137531280284","photo":"photos/C002.jpg","photoBack":"photos/C002_back.jpg","status":"forSale"},
+  {"id":"C002","player":"Ace Bailey","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Red Mini-Diamond 2/5 #65","cat":"Specialty","team":"Jazz","listing":"https://www.ebay.com/itm/137531280284","photo":"photos/C002.jpg","photoBack":"photos/C002_back.jpg","status":"forSale"},
   {"id":"C003","player":"Stephen Curry","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Utopia Highlights 022/150 #UH-11","cat":"Specialty","team":"Warriors","listing":"https://www.ebay.com/itm/137465825721","photo":"photos/C003.jpg","photoBack":"photos/C003_back.jpg","status":"sold","soldPrice":78,"soldDate":"2026-07-11"},
   {"id":"C004","player":"Donovan Mitchell","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Utopia Highlights #UH-6","cat":"Specialty","team":"Cavaliers","listing":"","photo":"photos/C004.jpg","photoBack":"photos/C004_back.jpg","status":"collection"},
   {"id":"C006","player":"Cam Thomas","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Gold Refractor SSP 05/50 #3","cat":"Specialty","team":"Nets","listing":"","photo":"photos/C006.jpg","photoBack":"photos/C006_back.jpg","hold":true,"status":"collection"},
