@@ -30,6 +30,9 @@
                Set a grade like "PSA 10" or "BGS 9.5" to mark a card graded;
                it shows a gold grade badge. (Values still reflect raw comps
                unless you update them — graded slabs sell higher.)
+     grading   optional, e.g. "PSA" -> the raw card is OUT at a grader (not in
+               hand, not for sale). When it returns, set `grade`, clear this,
+               and relist. Tracking annotation; kept in held inventory.
 
    NOTE: purchase prices are intentionally NOT in this file — it ships
    to the public, so cost basis stays private. Pricing lives on eBay.
@@ -37,7 +40,7 @@
 
 window.CARDS = [
   {"id":"C001","player":"Luka Doncic","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Gold Refractor 43/50 #47","cat":"Specialty","team":"Lakers","listing":"https://www.ebay.com/itm/137465808331","photo":"photos/C001.jpg","photoBack":"photos/C001_back.jpg","status":"sold","soldPrice":800,"soldDate":"2026-07-10"},
-  {"id":"C002","player":"Ace Bailey","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Red Mini-Diamond 2/5 #65","cat":"Specialty","team":"Jazz","listing":"","photo":"photos/C002.jpg","photoBack":"photos/C002_back.jpg","status":"collection"},
+  {"id":"C002","player":"Ace Bailey","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Red Mini-Diamond 2/5 #65","cat":"Specialty","team":"Jazz","listing":"","photo":"photos/C002.jpg","photoBack":"photos/C002_back.jpg","status":"collection","grading":"PSA"},
   {"id":"C003","player":"Stephen Curry","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Utopia Highlights 022/150 #UH-11","cat":"Specialty","team":"Warriors","listing":"https://www.ebay.com/itm/137465825721","photo":"photos/C003.jpg","photoBack":"photos/C003_back.jpg","status":"sold","soldPrice":78,"soldDate":"2026-07-11"},
   {"id":"C004","player":"Donovan Mitchell","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Utopia Highlights #UH-6","cat":"Specialty","team":"Cavaliers","listing":"","photo":"photos/C004.jpg","photoBack":"photos/C004_back.jpg","status":"collection"},
   {"id":"C006","player":"Cam Thomas","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Gold Refractor SSP 05/50 #3","cat":"Specialty","team":"Nets","listing":"","photo":"photos/C006.jpg","photoBack":"photos/C006_back.jpg","hold":true,"status":"collection"},
@@ -125,9 +128,8 @@ window.CARDS = [
   {"id":"C095","player":"Pascal Siakam","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Jacked Up #JU-29","cat":"Specialty","team":"Pacers","listing":"https://www.ebay.com/itm/137531280583","photo":"photos/C095.jpg","photoBack":"photos/C095_back.jpg","status":"forSale"},
   {"id":"C096","player":"Jase Richardson","pack":"2025-26 Topps Cosmic Chrome","type":"#144 RC","cat":"Base","team":"Magic","listing":"","photo":"photos/C096.jpg","photoBack":"photos/C096_back.jpg","status":"collection"},
   {"id":"C097","player":"Payton Pritchard","pack":"2024-25 Panini Prizm Black","type":"Mojo Prizm SP 08/25 #212","cat":"Parallel/Refractor","team":"Celtics","listing":"https://www.ebay.com/itm/137531240137","photo":"photos/C097.jpg","photoBack":"photos/C097_back.jpg","status":"forSale"},
-  {"id":"C098","player":"Jalen Brunson","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Gold Refractor SSP 17/50 #4","cat":"Specialty","team":"Knicks","listing":"","photo":"photos/C098.jpg","photoBack":"photos/C098_back.jpg","status":"collection"},
+  {"id":"C098","player":"Jalen Brunson","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Gold Refractor SSP 17/50 #4","cat":"Specialty","team":"Knicks","listing":"","photo":"photos/C098.jpg","photoBack":"photos/C098_back.jpg","status":"collection","grading":"PSA"},
   {"id":"C099","player":"Giannis Antetokounmpo","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Teal Speckle 242/299 #17","cat":"Specialty","team":"Bucks","listing":"","photo":"photos/C099.jpg","photoBack":"photos/C099_back.jpg","lot":true,"status":"forSale"},
-  {"id":"C100","player":"Walker Kessler","pack":"2022-23 Panini Spectra","type":"Rookie Patch Auto 21/35 #207","cat":"Hits","team":"Jazz","listing":"","photo":"photos/C100.jpg","photoBack":"photos/C100_back.jpg","status":"collection"},
   {"id":"C101","player":"Payton Pritchard","pack":"2020-21 Panini Prizm","type":"Green Prizm #257","cat":"Parallel/Refractor","team":"Celtics","listing":"https://www.ebay.com/itm/137531280369","photo":"photos/C101.jpg","photoBack":"photos/C101_back.jpg","grade":"PSA 9","status":"forSale"},
   {"id":"C103","player":"Donovan Mitchell","pack":"2025-26 Topps Chrome","type":"Sleek Finishers Red Refractor 2/5 #SF-7","cat":"Specialty","team":"Cavaliers","listing":"https://www.ebay.com/itm/137531280235","photo":"photos/C103.jpg","photoBack":"photos/C103_back.jpg","grade":"PSA 10","status":"forSale"},
   {"id":"C104","player":"Barry Sanders","pack":"2004 Topps HOF","type":"On-Card Autograph (Plaque Photo Print)","cat":"Hits","team":"Lions","listing":"","photo":"photos/C104.jpg","photoBack":"photos/C104_back.jpg","status":"forSale"},
