@@ -33,6 +33,8 @@
      grading   optional, e.g. "PSA" -> the raw card is OUT at a grader (not in
                hand, not for sale). When it returns, set `grade`, clear this,
                and relist. Tracking annotation; kept in held inventory.
+     cert      optional PSA/BGS certification number for a graded slab (record-
+               keeping + relisting/verification). Not shown on the public grid.
 
    NOTE: purchase prices are intentionally NOT in this file — it ships
    to the public, so cost basis stays private. Pricing lives on eBay.
@@ -136,5 +138,10 @@ window.CARDS = [
   {"id":"C107","player":"VJ Edgecombe","pack":"2025-26 Topps Chrome x Cactus Jack","type":"Jacked Up #JU-2 RC","cat":"Specialty","team":"76ers","listing":"https://www.ebay.com/itm/137531240017","photo":"photos/C107.jpg","photoBack":"photos/C107_back.jpg","status":"forSale"},
   {"id":"C108","player":"Cooper Flagg","pack":"2025-26 Bowman","type":"RC #1","cat":"Base","team":"Mavericks","listing":"https://www.ebay.com/itm/137531239990","photo":"photos/C108.jpg","photoBack":"photos/C108_back.jpg","status":"forSale"},
   {"id":"C109","player":"Cedric Coward","pack":"2025-26 Bowman","type":"Rookie of the Year Favorites #RY-11 RC","cat":"Specialty","team":"Grizzlies","listing":"https://www.ebay.com/itm/137531280523","photo":"photos/C109.jpg","photoBack":"photos/C109_back.jpg","status":"forSale"},
-  {"id":"C111","player":"Kawhi Leonard","pack":"2025-26 Topps NBA Hoops","type":"Net 2 Net Insert","cat":"Specialty","team":"Clippers","listing":"https://www.ebay.com/itm/137531280722","photo":"photos/C111.jpg","photoBack":"photos/C111_back.jpg","status":"forSale"}
+  {"id":"C111","player":"Kawhi Leonard","pack":"2025-26 Topps NBA Hoops","type":"Net 2 Net Insert","cat":"Specialty","team":"Clippers","listing":"https://www.ebay.com/itm/137531280722","photo":"photos/C111.jpg","photoBack":"photos/C111_back.jpg","status":"forSale"},
+  {"id":"C113","player":"De'Aaron Fox","pack":"2017-18 Panini Chronicles","type":"Gold Standard 58/99 #155 RC","cat":"Parallel/Refractor","team":"Kings","listing":"","photo":"photos/C113.jpg","grade":"PSA 10","cert":"148813482","status":"forSale"},
+  {"id":"C114","player":"Paolo Banchero","pack":"2022-23 Panini Revolution","type":"Future Frame #139 RC","cat":"Specialty","team":"Magic","listing":"","photo":"photos/C114.jpg","grade":"PSA 10","cert":"75938410","status":"forSale"},
+  {"id":"C115","player":"Darius Garland","pack":"2019-20 Panini Prizm","type":"Ruby Wave #288 RC","cat":"Parallel/Refractor","team":"Cavaliers","listing":"","photo":"photos/C115.jpg","grade":"PSA 10","cert":"56466172","status":"forSale"},
+  {"id":"C116","player":"Donovan Mitchell","pack":"2017-18 Panini Hoops","type":"RC #263","cat":"Base","team":"Jazz","listing":"","photo":"photos/C116.jpg","grade":"PSA 10","cert":"54823149","status":"forSale"},
+  {"id":"C117","player":"De'Aaron Fox","pack":"2021-22 Panini Prizm","type":"Prizmatic Black Prizm 1/1 #24","cat":"Specialty","team":"Kings","listing":"","photo":"photos/C117.jpg","photoBack":"photos/C117_back.jpg","grade":"PSA 9","cert":"87602649","status":"collection"}
 ];
