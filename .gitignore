@@ -88,3 +88,10 @@ wallet.json
 # API keyset + OAuth refresh token. These must NEVER hit the public GitHub Pages repo.
 scanner/
 ebay-manager/
+
+# local automation (daily-sync wrapper) — references local paths
+scripts/
+
+# Instagram auto-poster secrets + local state — the token must NEVER hit the public Pages repo.
+ig/ig-config.json
+ig/state.json
