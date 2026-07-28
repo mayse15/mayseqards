@@ -74,30 +74,53 @@ function pickNext(cards, state) {
   return list[0] || null;
 }
 
-// ── Meta Graph API publish (2-step: create media container → wait until ready → publish) ──
+// ── Meta Graph API publish (create media container(s) → wait until ready → publish) ──
 const GRAPH = 'https://graph.facebook.com/v21.0';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-async function publish(cfg, imageUrl, cap) {
+
+// Create a media container on the IG user, return its id.
+async function createContainer(cfg, params) {
   const mk = await fetch(`${GRAPH}/${cfg.igUserId}/media`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ image_url: imageUrl, caption: cap, access_token: cfg.accessToken }),
+    body: JSON.stringify({ ...params, access_token: cfg.accessToken }),
   }).then(r => r.json());
   if (!mk.id) throw new Error('media create failed: ' + JSON.stringify(mk));
-  // The container must fetch + process the image before it can be published; IG rejects an
-  // immediate publish with code 9007. Poll status_code until FINISHED (up to ~30s).
-  let ready = false;
+  return mk.id;
+}
+
+// Poll a container until FINISHED — IG rejects publishing an unready container with code 9007.
+async function waitReady(cfg, id) {
   for (let i = 0; i < 15; i++) {
-    const st = await fetch(`${GRAPH}/${mk.id}?fields=status_code&access_token=${cfg.accessToken}`).then(r => r.json());
-    if (st.status_code === 'FINISHED') { ready = true; break; }
+    const st = await fetch(`${GRAPH}/${id}?fields=status_code&access_token=${cfg.accessToken}`).then(r => r.json());
+    if (st.status_code === 'FINISHED') return;
     if (st.status_code === 'ERROR' || st.status_code === 'EXPIRED') throw new Error('media processing failed: ' + JSON.stringify(st));
     await sleep(2000);
   }
-  if (!ready) throw new Error('media not ready after polling');
+  throw new Error('media not ready after polling: ' + id);
+}
+
+// Publish a single image, or a carousel when given multiple (e.g. card front + back).
+async function publish(cfg, imageUrls, cap) {
+  let creationId;
+  if (imageUrls.length === 1) {
+    creationId = await createContainer(cfg, { image_url: imageUrls[0], caption: cap });
+    await waitReady(cfg, creationId);
+  } else {
+    // Carousel: one child container per image, then a parent CAROUSEL container holding them.
+    const children = [];
+    for (const url of imageUrls) {
+      const id = await createContainer(cfg, { image_url: url, is_carousel_item: true });
+      await waitReady(cfg, id);
+      children.push(id);
+    }
+    creationId = await createContainer(cfg, { media_type: 'CAROUSEL', children: children.join(','), caption: cap });
+    await waitReady(cfg, creationId);
+  }
   const pub = await fetch(`${GRAPH}/${cfg.igUserId}/media_publish`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ creation_id: mk.id, access_token: cfg.accessToken }),
+    body: JSON.stringify({ creation_id: creationId, access_token: cfg.accessToken }),
   }).then(r => r.json());
   if (!pub.id) throw new Error('publish failed: ' + JSON.stringify(pub));
   return pub.id; // the published IG media id
@@ -109,11 +132,14 @@ const state = loadState();
 const card = pickNext(cards, state);
 if (!card) { console.log('No eligible cards to post.'); process.exit(0); }
 
-const imageUrl = `${SITE}/${card.photo}`;
+// Post both sides when a back photo exists (→ carousel); otherwise just the front.
+const images = [`${SITE}/${card.photo}`];
+if (card.photoBack) images.push(`${SITE}/${card.photoBack}`);
 const cap = caption(card);
 
 console.log(`\n── Next IG post: ${card.id} ${card.player} ──`);
-console.log('image:', imageUrl);
+console.log(`images (${images.length}${images.length > 1 ? ', carousel' : ''}):`);
+images.forEach(u => console.log('  ' + u));
 console.log('caption:\n' + cap + '\n');
 
 if (DRY) { console.log('[dry-run] not published.'); process.exit(0); }
@@ -122,7 +148,7 @@ let cfg;
 try { cfg = JSON.parse(readFileSync(new URL('ig-config.json', HERE), 'utf8')); }
 catch { console.error('Missing ig/ig-config.json — do the Meta setup (ig/SETUP.md) first, or use --dry-run.'); process.exit(1); }
 
-const mediaId = await publish(cfg, imageUrl, cap);
+const mediaId = await publish(cfg, images, cap);
 state.posted.push(card.id);
 state.updated = new Date().toISOString().slice(0, 10);
 writeFileSync(new URL('state.json', HERE), JSON.stringify(state, null, 1));
