@@ -16,10 +16,20 @@ const DRY = process.argv.includes('--dry-run');
 const SITE = 'https://mayseqards.com';
 
 // ── load cards from collection.js (window.CARDS = [...]) ──
-function loadCards() {
-  const txt = readFileSync(new URL('../collection.js', HERE), 'utf8');
-  const arr = txt.match(/\[[\s\S]*\]/);
-  return arr ? JSON.parse(arr[0]) : [];
+// Prefer the LIVE deployed collection so the poster is always current (esp. on the 24/7 box);
+// fall back to the local file for offline dev.
+async function loadCards() {
+  try {
+    const res = await fetch(`${SITE}/collection.js`);
+    if (res.ok) {
+      const m = (await res.text()).match(/\[[\s\S]*\]/);
+      if (m) return JSON.parse(m[0]);
+    }
+  } catch { /* offline / site down → fall back to local */ }
+  try {
+    const m = readFileSync(new URL('../collection.js', HERE), 'utf8').match(/\[[\s\S]*\]/);
+    return m ? JSON.parse(m[0]) : [];
+  } catch { return []; }
 }
 
 // ── eligibility: real photo, public, not a personal keep ──
@@ -41,11 +51,15 @@ function hashtags(c) {
   if (/\/\d+|\d+\/\d+/.test(c.type)) tags.push('#numbered');
   return [...new Set(tags)].slice(0, 12).join(' ');
 }
+const fmtPrice = p => { const n = Number(p); return Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`; };
 function caption(c) {
   const { serial } = parseType(c.type);
   const gradeLine = c.grade ? ` — ${c.grade} 🔒` : '';
-  const availLine = c.status === 'forSale'
-    ? '🟢 Available now — tap the link in bio to grab it on eBay.'
+  const forSale = c.status === 'forSale';
+  // Instagram never makes caption URLs clickable — the only tappable route is "link in bio".
+  const priceStr = forSale && c.price != null ? ` — ${fmtPrice(c.price)}` : '';
+  const availLine = forSale
+    ? `🟢 Available now${priceStr} — tap the link in bio to grab it on eBay.`
     : '💎 From the MayseQards vault.';
   const lines = [
     `🏀 ${c.player} — ${c.pack}${gradeLine}`,
@@ -127,7 +141,7 @@ async function publish(cfg, imageUrls, cap) {
 }
 
 // ── main ──
-const cards = loadCards();
+const cards = await loadCards();
 const state = loadState();
 const card = pickNext(cards, state);
 if (!card) { console.log('No eligible cards to post.'); process.exit(0); }
