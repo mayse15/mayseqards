@@ -74,16 +74,27 @@ function pickNext(cards, state) {
   return list[0] || null;
 }
 
-// ── Meta Graph API publish (2-step: create media container → publish) ──
+// ── Meta Graph API publish (2-step: create media container → wait until ready → publish) ──
+const GRAPH = 'https://graph.facebook.com/v21.0';
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function publish(cfg, imageUrl, cap) {
-  const base = `https://graph.facebook.com/v21.0/${cfg.igUserId}`;
-  const mk = await fetch(`${base}/media`, {
+  const mk = await fetch(`${GRAPH}/${cfg.igUserId}/media`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ image_url: imageUrl, caption: cap, access_token: cfg.accessToken }),
   }).then(r => r.json());
   if (!mk.id) throw new Error('media create failed: ' + JSON.stringify(mk));
-  const pub = await fetch(`${base}/media_publish`, {
+  // The container must fetch + process the image before it can be published; IG rejects an
+  // immediate publish with code 9007. Poll status_code until FINISHED (up to ~30s).
+  let ready = false;
+  for (let i = 0; i < 15; i++) {
+    const st = await fetch(`${GRAPH}/${mk.id}?fields=status_code&access_token=${cfg.accessToken}`).then(r => r.json());
+    if (st.status_code === 'FINISHED') { ready = true; break; }
+    if (st.status_code === 'ERROR' || st.status_code === 'EXPIRED') throw new Error('media processing failed: ' + JSON.stringify(st));
+    await sleep(2000);
+  }
+  if (!ready) throw new Error('media not ready after polling');
+  const pub = await fetch(`${GRAPH}/${cfg.igUserId}/media_publish`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ creation_id: mk.id, access_token: cfg.accessToken }),
