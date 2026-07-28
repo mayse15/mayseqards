@@ -142,6 +142,6 @@ window.CARDS = [
   {"id":"C113","player":"De'Aaron Fox","pack":"2017-18 Panini Chronicles","type":"Gold Standard 58/99 #155 RC","cat":"Parallel/Refractor","team":"Kings","listing":"","photo":"photos/C113.jpg","grade":"PSA 10","cert":"148813482","status":"forSale"},
   {"id":"C114","player":"Paolo Banchero","pack":"2022-23 Panini Revolution","type":"Future Frame #139 RC","cat":"Specialty","team":"Magic","listing":"","photo":"photos/C114.jpg","grade":"PSA 10","cert":"75938410","status":"forSale"},
   {"id":"C115","player":"Darius Garland","pack":"2019-20 Panini Prizm","type":"Ruby Wave #288 RC","cat":"Parallel/Refractor","team":"Cavaliers","listing":"","photo":"photos/C115.jpg","grade":"PSA 10","cert":"56466172","status":"forSale"},
-  {"id":"C116","player":"Donovan Mitchell","pack":"2017-18 Panini Hoops","type":"RC #263","cat":"Base","team":"Jazz","listing":"","photo":"photos/C116.jpg","grade":"PSA 10","cert":"54823149","status":"forSale"},
+  {"id":"C116","player":"Donovan Mitchell","pack":"2017-18 Panini Hoops","type":"RC #263","cat":"Base","team":"Jazz","listing":"https://www.ebay.com/itm/137557991713","photo":"photos/C116.jpg","grade":"PSA 10","cert":"54823149","status":"forSale"},
   {"id":"C117","player":"De'Aaron Fox","pack":"2021-22 Panini Prizm","type":"Prizmatic Black Prizm 1/1 #24","cat":"Specialty","team":"Kings","listing":"","photo":"photos/C117.jpg","photoBack":"photos/C117_back.jpg","grade":"PSA 9","cert":"87602649","status":"collection"}
 ];
