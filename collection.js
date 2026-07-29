@@ -1186,19 +1186,6 @@ window.CARDS = [
   "status": "collection"
  },
  {
-  "id": "C097",
-  "player": "Payton Pritchard",
-  "pack": "2024-25 Panini Prizm Black",
-  "type": "Mojo Prizm SP 22/25 #212",
-  "cat": "Parallel/Refractor",
-  "team": "Celtics",
-  "listing": "",
-  "photo": "photos/C097.jpg",
-  "photoBack": "photos/C097_back.jpg",
-  "status": "forSale",
-  "grade": "PSA 10"
- },
- {
   "id": "C098",
   "player": "Jalen Brunson",
   "pack": "2025-26 Topps Chrome x Cactus Jack",
