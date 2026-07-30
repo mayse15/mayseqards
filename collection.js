@@ -115,9 +115,10 @@ window.CARDS = [
   "type": "Masters Orange Geometric Auto 14/15",
   "cat": "Hits",
   "team": "Spurs",
-  "listing": "",
+  "listing": "https://www.ebay.com/itm/137565674314",
   "photo": "",
-  "status": "collection"
+  "status": "forSale",
+  "price": 95
  },
  {
   "id": "C008",
@@ -243,11 +244,11 @@ window.CARDS = [
   "type": "Jacked Up 047/150 #JU-23",
   "cat": "Specialty",
   "team": "Clippers",
-  "listing": "https://www.ebay.com/itm/137531240071",
+  "listing": "https://www.ebay.com/itm/137565903364",
   "photo": "photos/C018.jpg",
   "photoBack": "photos/C018_back.jpg",
   "status": "forSale",
-  "price": 0
+  "price": 12
  },
  {
   "id": "C019",
@@ -695,10 +696,11 @@ window.CARDS = [
   "type": "Hobby Stars #HS-14",
   "cat": "Specialty",
   "team": "Timberwolves",
-  "listing": "",
+  "listing": "https://www.ebay.com/itm/137531281489",
   "photo": "photos/C058.jpg",
   "photoBack": "photos/C058_back.jpg",
-  "status": "collection"
+  "status": "forSale",
+  "price": 3.6
  },
  {
   "id": "C059",
@@ -747,10 +749,11 @@ window.CARDS = [
   "type": "Chrome RC #BCV-145",
   "cat": "Base",
   "team": "Spurs",
-  "listing": "",
+  "listing": "https://www.ebay.com/itm/137531281564",
   "photo": "photos/C062.jpg",
   "photoBack": "photos/C062_back.jpg",
-  "status": "collection"
+  "status": "forSale",
+  "price": 3.24
  },
  {
   "id": "C063",
@@ -849,10 +852,11 @@ window.CARDS = [
   "type": "Chrome RC #BCV-18",
   "cat": "Base",
   "team": "Jazz",
-  "listing": "",
+  "listing": "https://www.ebay.com/itm/137531281525",
   "photo": "photos/C070.jpg",
   "photoBack": "photos/C070_back.jpg",
-  "status": "collection"
+  "status": "forSale",
+  "price": 3.6
  },
  {
   "id": "C071",
@@ -861,10 +865,11 @@ window.CARDS = [
   "type": "Greatness Loading #GL-15",
   "cat": "Specialty",
   "team": "Thunder",
-  "listing": "",
+  "listing": "https://www.ebay.com/itm/137531281606",
   "photo": "photos/C071.jpg",
   "photoBack": "photos/C071_back.jpg",
-  "status": "collection"
+  "status": "forSale",
+  "price": 2.52
  },
  {
   "id": "C072",
@@ -1182,10 +1187,11 @@ window.CARDS = [
   "type": "#144 RC",
   "cat": "Base",
   "team": "Magic",
-  "listing": "",
+  "listing": "https://www.ebay.com/itm/137531281586",
   "photo": "photos/C096.jpg",
   "photoBack": "photos/C096_back.jpg",
-  "status": "collection"
+  "status": "forSale",
+  "price": 2.7
  },
  {
   "id": "C098",
