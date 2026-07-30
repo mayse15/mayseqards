@@ -1333,11 +1333,11 @@ window.CARDS = [
   "type": "Future Frame #139 RC",
   "cat": "Specialty",
   "team": "Magic",
-  "listing": "https://www.ebay.com/itm/137558039241",
+  "listing": "",
   "photo": "photos/C114.jpg",
   "grade": "PSA 10",
   "cert": "75938410",
-  "status": "forSale"
+  "status": "collection"
  },
  {
   "id": "C115",
