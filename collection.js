@@ -398,8 +398,10 @@ window.CARDS = [
   "listing": "https://www.ebay.com/itm/137562291093",
   "photo": "photos/C035.jpg",
   "photoBack": "photos/C035_back.jpg",
-  "status": "forSale",
-  "price": 33
+  "status": "sold",
+  "price": 33,
+  "soldPrice": 33,
+  "soldDate": "2026-07-29"
  },
  {
   "id": "C036",
