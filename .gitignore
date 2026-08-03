@@ -106,3 +106,6 @@ nba-intel.json
 
 # self-scheduling stamps for scripts/cron-tasks.sh (local state)
 .automation-stamps/
+
+# eBay Earnings-tab exports (per-order revenue/fees) — private
+earnings-*.csv
