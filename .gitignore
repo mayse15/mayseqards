@@ -109,3 +109,6 @@ nba-intel.json
 
 # eBay Earnings-tab exports (per-order revenue/fees) — private
 earnings-*.csv
+
+# margin strategy (cost structure + thresholds) — private
+MARGIN-PLAN.md
