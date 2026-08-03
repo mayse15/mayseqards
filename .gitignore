@@ -97,3 +97,12 @@ scripts/
 # Instagram auto-poster secrets + local state — the token must NEVER hit the public Pages repo.
 ig/ig-config.json
 ig/state.json
+
+# NBA Intelligence Engine + star-probability model — the buy-side edge, not for the public site.
+# Was untracked AND unignored until 2026-07-31, i.e. one `git add -A` from being published.
+# Backed up privately via scripts/ops-backup.sh -> mayse15/mayseqards-ops.
+nba-intel/
+nba-intel.json
+
+# self-scheduling stamps for scripts/cron-tasks.sh (local state)
+.automation-stamps/
