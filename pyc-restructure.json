@@ -1,0 +1,587 @@
+{
+ "created": "2026-08-19",
+ "end_listings": [
+  "137561873311",
+  "137562286193",
+  "137580233728",
+  "137594933938",
+  "137594934560"
+ ],
+ "lots": [
+  {
+   "kind": "team",
+   "title": "Bulls",
+   "team": "Bulls",
+   "cards": [
+    "C068",
+    "C143"
+   ],
+   "n": 2,
+   "est_sum": 8.0,
+   "price": 6.99,
+   "desc": "Josh Giddey Round 1 Pick 6 #45; Michael Jordan #650",
+   "dropDate": "2026-08-20"
+  },
+  {
+   "kind": "player",
+   "title": "Victor Wembanyama",
+   "team": "Spurs",
+   "cards": [
+    "C132",
+    "C199"
+   ],
+   "n": 2,
+   "est_sum": 5.99,
+   "price": 4.99,
+   "desc": "Bowman Base #143; Topps Chrome Update Base #22",
+   "dropDate": "2026-08-20"
+  },
+  {
+   "kind": "single",
+   "title": "Giannis Antetokounmpo Power Players #PP-1",
+   "team": "Bucks",
+   "cards": [
+    "C177"
+   ],
+   "n": 1,
+   "est_sum": 4.0,
+   "price": 4.99,
+   "desc": "2025-26 Topps Chrome Update Power Players #PP-1",
+   "dropDate": "2026-08-20"
+  },
+  {
+   "kind": "single",
+   "title": "Kyrie Irving Wave Refractor #3",
+   "team": "Mavericks",
+   "cards": [
+    "C198"
+   ],
+   "n": 1,
+   "est_sum": 4.0,
+   "price": 4.99,
+   "desc": "2025-26 Topps Chrome Update Wave Refractor #3",
+   "dropDate": "2026-08-21"
+  },
+  {
+   "kind": "team",
+   "title": "Jazz",
+   "team": "Jazz",
+   "cards": [
+    "C064",
+    "C161"
+   ],
+   "n": 2,
+   "est_sum": 7.0,
+   "price": 5.99,
+   "desc": "Jordan Clarkson Round 2 Pick 46 #100; Lauri Markkanen Base #53",
+   "dropDate": "2026-08-21"
+  },
+  {
+   "kind": "player",
+   "title": "Kevin Durant",
+   "team": "Rockets",
+   "cards": [
+    "C046",
+    "C047",
+    "C159"
+   ],
+   "n": 3,
+   "est_sum": 10.0,
+   "price": 7.99,
+   "desc": "Bowman Chrome Hobby Stars #HS-12; Topps Signature Class Round 1 Pick 2 #57; Hakeem Olajuwon Topps Chrome Update No Limit #IP-4",
+   "dropDate": "2026-08-21"
+  },
+  {
+   "kind": "player",
+   "title": "Ja Morant",
+   "team": "Grizzlies",
+   "cards": [
+    "C045",
+    "C093"
+   ],
+   "n": 2,
+   "est_sum": 6.0,
+   "price": 4.99,
+   "desc": "Topps Chrome Propulsion #PRP-8; Topps Chrome x Cactus Jack Utopia Highlights #UH-15",
+   "dropDate": "2026-08-22"
+  },
+  {
+   "kind": "player",
+   "title": "Nikola Jokic",
+   "team": "Nuggets",
+   "cards": [
+    "C056",
+    "C131"
+   ],
+   "n": 2,
+   "est_sum": 4.25,
+   "price": 4.99,
+   "desc": "2024-25 Panini Revolution Base #76; Bowman Chrome Chrome #BCV-100",
+   "dropDate": "2026-08-22"
+  },
+  {
+   "kind": "player",
+   "title": "Devin Booker",
+   "team": "Suns",
+   "cards": [
+    "C133",
+    "C162"
+   ],
+   "n": 2,
+   "est_sum": 7.0,
+   "price": 5.99,
+   "desc": "Topps Chrome x Cactus Jack Base #48; Topps Chrome Update Stratospheric Stars #ST-11",
+   "dropDate": "2026-08-22"
+  },
+  {
+   "kind": "player",
+   "title": "Tyrese Haliburton",
+   "team": "Pacers",
+   "cards": [
+    "C160",
+    "C195"
+   ],
+   "n": 2,
+   "est_sum": 8.0,
+   "price": 6.99,
+   "desc": "Topps Chrome Update Activators #AC-5; Topps Chrome Update Base #18",
+   "dropDate": "2026-08-23"
+  },
+  {
+   "kind": "team",
+   "title": "Lakers",
+   "team": "Lakers",
+   "cards": [
+    "C044",
+    "C136",
+    "C149",
+    "C187"
+   ],
+   "n": 4,
+   "est_sum": 13.0,
+   "price": 10.99,
+   "desc": "Magic Johnson Galaxy Greats #GG-30; Rui Hachimura Holo Parallel UNCONFIRMED #1; Austin Reaves Base #54; Shaquille O'Neal Wave Refractor #142",
+   "dropDate": "2026-08-23"
+  },
+  {
+   "kind": "team",
+   "title": "76ers",
+   "team": "76ers",
+   "cards": [
+    "C138",
+    "C155",
+    "C158"
+   ],
+   "n": 3,
+   "est_sum": 11.25,
+   "price": 9.99,
+   "desc": "Chris Webber Photographers Proof 1926/1999 #58; Allen Iverson Base #145; Tyrese Maxey Base #41",
+   "dropDate": "2026-08-23"
+  },
+  {
+   "kind": "team",
+   "title": "Celtics",
+   "team": "Celtics",
+   "cards": [
+    "C183",
+    "C196"
+   ],
+   "n": 2,
+   "est_sum": 8.0,
+   "price": 6.99,
+   "desc": "Bill Russell Base #141; Kevin Garnett Clutch Gene #CG-27",
+   "dropDate": "2026-08-24"
+  },
+  {
+   "kind": "single",
+   "title": "Cade Cunningham X-Fractor #6",
+   "team": "Pistons",
+   "cards": [
+    "C153"
+   ],
+   "n": 1,
+   "est_sum": 4.0,
+   "price": 4.99,
+   "desc": "2025-26 Topps Chrome Update X-Fractor #6",
+   "dropDate": "2026-08-24"
+  },
+  {
+   "kind": "single",
+   "title": "Donovan Mitchell Utopia Highlights #UH-6",
+   "team": "Cavaliers",
+   "cards": [
+    "C004"
+   ],
+   "n": 1,
+   "est_sum": 3.0,
+   "price": 3.99,
+   "desc": "2025-26 Topps Chrome x Cactus Jack Utopia Highlights #UH-6",
+   "dropDate": "2026-08-24"
+  },
+  {
+   "kind": "single",
+   "title": "LaMelo Ball Base #50",
+   "team": "Hornets",
+   "cards": [
+    "C180"
+   ],
+   "n": 1,
+   "est_sum": 4.0,
+   "price": 4.99,
+   "desc": "2025-26 Topps Chrome Update Base #50",
+   "dropDate": "2026-08-25"
+  },
+  {
+   "kind": "player",
+   "title": "Ace Bailey",
+   "team": "Jazz",
+   "cards": [
+    "C015",
+    "C032",
+    "C188"
+   ],
+   "n": 3,
+   "est_sum": 8.0,
+   "price": 6.99,
+   "desc": "Topps Chrome x Cactus Jack RC #65; Topps Holiday Glitter RC #H165; Topps Chrome Update Base RC #155",
+   "dropDate": "2026-08-25"
+  },
+  {
+   "kind": "player",
+   "title": "Dylan Harper",
+   "team": "Spurs",
+   "cards": [
+    "C024",
+    "C151",
+    "C157"
+   ],
+   "n": 3,
+   "est_sum": 10.0,
+   "price": 7.99,
+   "desc": "Bowman Chrome Chrome RC #BCV-2; Topps Chrome Update Base RC #152; Topps Chrome Update Base RC #152",
+   "dropDate": "2026-08-25"
+  },
+  {
+   "kind": "player",
+   "title": "Cedric Coward",
+   "team": "Grizzlies",
+   "cards": [
+    "C055",
+    "C090",
+    "C166"
+   ],
+   "n": 3,
+   "est_sum": 10.78,
+   "price": 8.99,
+   "desc": "Bowman Chrome ROY Favorites #RY-11; Topps Chrome x Cactus Jack RC #71; Topps Chrome Update Base RC #161",
+   "dropDate": "2026-08-26"
+  },
+  {
+   "kind": "player",
+   "title": "VJ Edgecombe",
+   "team": "76ers",
+   "cards": [
+    "C079",
+    "C107",
+    "C165"
+   ],
+   "n": 3,
+   "est_sum": 8.25,
+   "price": 6.99,
+   "desc": "Topps Chrome x Cactus Jack Jacked Up #JU-2; Topps Chrome x Cactus Jack Jacked Up #JU-2 RC; Topps Chrome Update Base RC #153",
+   "dropDate": "2026-08-26"
+  },
+  {
+   "kind": "player",
+   "title": "Jrue Holiday",
+   "team": "Celtics",
+   "cards": [
+    "C019",
+    "C144"
+   ],
+   "n": 2,
+   "est_sum": 8.25,
+   "price": 6.99,
+   "desc": "Topps Signature Class Round 1 Pick 17 024/275 #20; 2009-10 Topps RC #330",
+   "dropDate": "2026-08-26"
+  },
+  {
+   "kind": "player",
+   "title": "Dwyane Wade",
+   "team": "Heat",
+   "cards": [
+    "C040",
+    "C150"
+   ],
+   "n": 2,
+   "est_sum": 7.0,
+   "price": 5.99,
+   "desc": "Bowman Chrome Young Kings #YK-23; Topps Chrome Update Clutch Gene #CG-21",
+   "dropDate": "2026-08-27"
+  },
+  {
+   "kind": "player",
+   "title": "Jeremiah Fears",
+   "team": "Pelicans",
+   "cards": [
+    "C050",
+    "C074"
+   ],
+   "n": 2,
+   "est_sum": 7.03,
+   "price": 5.99,
+   "desc": "Topps Signature Class Unfazed #FAZE-17; Donruss Zero Gravity #8",
+   "dropDate": "2026-08-27"
+  },
+  {
+   "kind": "player",
+   "title": "Joan Beringer",
+   "team": "Timberwolves",
+   "cards": [
+    "C072",
+    "C124"
+   ],
+   "n": 2,
+   "est_sum": 4.99,
+   "price": 4.99,
+   "desc": "Bowman Chrome Rockstar Rookies #RR-17; Bowman Chrome Chrome RC #BCV-17",
+   "dropDate": "2026-08-27"
+  },
+  {
+   "kind": "player",
+   "title": "Karl-Anthony Towns",
+   "team": "Knicks",
+   "cards": [
+    "C092",
+    "C163"
+   ],
+   "n": 2,
+   "est_sum": 8.5,
+   "price": 6.99,
+   "desc": "Topps Chrome x Cactus Jack Base #5; Topps Chrome Update Base #21",
+   "dropDate": "2026-08-28"
+  },
+  {
+   "kind": "player",
+   "title": "RJ Barrett",
+   "team": "Raptors",
+   "cards": [
+    "C156",
+    "C178"
+   ],
+   "n": 2,
+   "est_sum": 8.0,
+   "price": 6.99,
+   "desc": "Topps Chrome Update Base #73; Topps Chrome Update Aqua Refractor #73 /199",
+   "dropDate": "2026-08-28"
+  },
+  {
+   "kind": "player",
+   "title": "Stephon Castle",
+   "team": "Spurs",
+   "cards": [
+    "C175",
+    "C193"
+   ],
+   "n": 2,
+   "est_sum": 8.0,
+   "price": 6.99,
+   "desc": "Topps Chrome Update Wave Refractor #82; Topps Chrome Update Refractor #82",
+   "dropDate": "2026-08-28"
+  },
+  {
+   "kind": "team",
+   "title": "Pelicans",
+   "team": "Pelicans",
+   "cards": [
+    "C065",
+    "C067",
+    "C152"
+   ],
+   "n": 3,
+   "est_sum": 10.0,
+   "price": 7.99,
+   "desc": "Herbert Jones Round 2 Pick 35 #38; Micah Peavy Round 2 Pick 40 #134; Derik Queen Clutch City RC #YQ-14",
+   "dropDate": "2026-08-29"
+  },
+  {
+   "kind": "team",
+   "title": "Nuggets",
+   "team": "Nuggets",
+   "cards": [
+    "C028",
+    "C141"
+   ],
+   "n": 2,
+   "est_sum": 6.25,
+   "price": 4.99,
+   "desc": "Peyton Watson Blue Metallic Glitter SP #H83; Carmelo Anthony Scoring Kings #SK-1",
+   "dropDate": "2026-08-29"
+  },
+  {
+   "kind": "team",
+   "title": "Clippers",
+   "team": "Clippers",
+   "cards": [
+    "C048",
+    "C173"
+   ],
+   "n": 2,
+   "est_sum": 7.0,
+   "price": 5.99,
+   "desc": "Kawhi Leonard Net 2 Net #NTN-19; Chris Paul Fortune 15 Refractor #F15-6",
+   "dropDate": "2026-08-29"
+  },
+  {
+   "kind": "team",
+   "title": "Timberwolves",
+   "team": "Timberwolves",
+   "cards": [
+    "C057",
+    "C130"
+   ],
+   "n": 2,
+   "est_sum": 4.99,
+   "price": 4.99,
+   "desc": "Anthony Edwards Hobby Stars Refractor #HS-14; Julius Randle Chrome #BCV-183",
+   "dropDate": "2026-08-30"
+  },
+  {
+   "kind": "team",
+   "title": "Nets",
+   "team": "Nets",
+   "cards": [
+    "C125",
+    "C127"
+   ],
+   "n": 2,
+   "est_sum": 3.98,
+   "price": 4.99,
+   "desc": "Nolan Traore Chrome RC #BCV-19; Danny Wolf Chrome RC #BCV-27",
+   "dropDate": "2026-08-30"
+  },
+  {
+   "kind": "team",
+   "title": "Heat",
+   "team": "Heat",
+   "cards": [
+    "C126",
+    "C200"
+   ],
+   "n": 2,
+   "est_sum": 5.99,
+   "price": 4.99,
+   "desc": "Kasparas Jakucionis Chrome RC #BCV-20; Bam Adebayo Base #35",
+   "dropDate": "2026-08-30"
+  },
+  {
+   "kind": "team",
+   "title": "Suns",
+   "team": "Suns",
+   "cards": [
+    "C128",
+    "C191"
+   ],
+   "n": 2,
+   "est_sum": 5.99,
+   "price": 4.99,
+   "desc": "Rasheer Fleming Chrome RC #BCV-31; Khaman Maluach Base RC #160",
+   "dropDate": "2026-08-31"
+  },
+  {
+   "kind": "team",
+   "title": "Knicks",
+   "team": "Knicks",
+   "cards": [
+    "C129",
+    "C189"
+   ],
+   "n": 2,
+   "est_sum": 5.99,
+   "price": 4.99,
+   "desc": "Mikal Bridges Chrome #BCV-152; OG Anunoby Base #43",
+   "dropDate": "2026-08-31"
+  },
+  {
+   "kind": "team",
+   "title": "Grizzlies",
+   "team": "Grizzlies",
+   "cards": [
+    "C140",
+    "C194"
+   ],
+   "n": 2,
+   "est_sum": 6.25,
+   "price": 4.99,
+   "desc": "Rudy Gay RC #184; Jaren Jackson Jr. Base #28",
+   "dropDate": "2026-08-31"
+  },
+  {
+   "kind": "team",
+   "title": "Kings",
+   "team": "Kings",
+   "cards": [
+    "C148",
+    "C190"
+   ],
+   "n": 2,
+   "est_sum": 8.0,
+   "price": 6.99,
+   "desc": "Domantas Sabonis Power Players #PP-6; Maxime Raynaud Base RC #193",
+   "dropDate": "2026-09-01"
+  },
+  {
+   "kind": "single",
+   "title": "Brooks Barnhizer Holo Foil RC #158",
+   "team": "Thunder",
+   "cards": [
+    "C030"
+   ],
+   "n": 1,
+   "est_sum": 3.0,
+   "price": 3.99,
+   "desc": "2025-26 Topps NBA Hoops Holo Foil RC #158",
+   "dropDate": "2026-09-01"
+  },
+  {
+   "kind": "single",
+   "title": "Anfernee Simons Round 2 Pick 24 #70",
+   "team": "Trail Blazers",
+   "cards": [
+    "C066"
+   ],
+   "n": 1,
+   "est_sum": 3.0,
+   "price": 3.99,
+   "desc": "2025-26 Topps Signature Class Round 2 Pick 24 #70",
+   "dropDate": "2026-09-01"
+  },
+  {
+   "kind": "single",
+   "title": "Jase Richardson Refractor 151/175 RC #85",
+   "team": "Magic",
+   "cards": [
+    "C086"
+   ],
+   "n": 1,
+   "est_sum": 4.41,
+   "price": 4.99,
+   "desc": "2025-26 Topps Chrome x Cactus Jack Refractor 151/175 RC #85",
+   "dropDate": "2026-09-02"
+  },
+  {
+   "kind": "single",
+   "title": "Rick Barry Clutch Gene #CG-29",
+   "team": "Warriors",
+   "cards": [
+    "C171"
+   ],
+   "n": 1,
+   "est_sum": 4.0,
+   "price": 4.99,
+   "desc": "2025-26 Topps Chrome Update Clutch Gene #CG-29",
+   "dropDate": "2026-09-02"
+  }
+ ],
+ "note": "end all 5 PYC listings immediately; 3 drops/day from 2026-08-20"
+}
