@@ -112,3 +112,7 @@ earnings-*.csv
 
 # margin strategy (cost structure + thresholds) — private
 MARGIN-PLAN.md
+
+box-state/
+whatnot-eval/
+*.json.tmp.*
