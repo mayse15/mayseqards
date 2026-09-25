@@ -1,13 +1,24 @@
 #!/usr/bin/env python3
-"""gen_whatnot.py — collection.js -> whatnot-listings.csv (Whatnot bulk-import CSV).
+"""gen_whatnot.py — collection.js -> Whatnot bulk-import CSVs.
 
-Emits one row per sellable card (status forSale/scheduled, not hold) in the exact
-format of Whatnot's US non-Coins template (headers + allowed values verified from
-the official template sheet, 2026-09-25). Import at Seller Hub > Inventory >
-Import from CSV -> creates DRAFT listings (nothing goes live until published).
+Two modes, matching Whatnot's two import targets:
 
-NOTE: each upload of the same file creates duplicate drafts — re-import only
-rows you haven't imported before (use --since or delete old drafts first).
+  python3 gen_whatnot.py shop [--min 10]
+      -> whatnot-shop.csv : Buy-it-Now INVENTORY drafts for the expensive
+         cards only (ask >= --min, default $10). Import at Seller Hub >
+         Inventory > Import from CSV. These become your profile Shop /
+         show BINs. Keeps inventory small so nothing is hard to find.
+
+  python3 gen_whatnot.py show [--under 10] [--start 1] [--limit 999] [C081 C035 ...]
+      -> whatnot-show.csv : AUCTION run-sheet uploaded DIRECTLY INTO A SHOW
+         (Shows > your show > Add > Create Temporary Listing > Upload CSV).
+         Temporary listings, never touch Inventory, appear in CSV row order —
+         so the file order IS the run order. Pass card ids for an exact
+         hand-picked order, or --under N to auto-pick the tail (sorted
+         high->low). Price column = auction starting bid (--start, default $1).
+
+Format verified against Whatnot's official US non-Coins template 2026-09-25.
+Re-importing the same rows creates duplicate drafts — import each row once.
 """
 import csv, json, re, sys
 
@@ -22,10 +33,14 @@ NBA = {"Hawks","Celtics","Nets","Hornets","Bulls","Cavaliers","Mavericks","Nugge
 FOOTBALL = {"Lions","Bears","Packers","Cowboys","Eagles","Chiefs","Bills","49ers"}
 
 def cards():
+    out = []
     for line in open("collection.js"):
         s = line.strip().rstrip(",")
         if s.startswith('{"id":"C'):
-            yield json.loads(s)
+            c = json.loads(s)
+            if c.get("status") in ("forSale", "scheduled") and not c.get("hold"):
+                out.append(c)
+    return out
 
 def subcategory(c):
     teams = re.split(r"\s*/\s*", c.get("team", ""))
@@ -50,41 +65,56 @@ def description(c):
     lines.append("From the MayseQards basketball collection · mayseqards.com")
     return "\n".join(lines)
 
-def rows(only_ids=None):
-    for c in cards():
-        if c.get("status") not in ("forSale", "scheduled") or c.get("hold"):
-            continue
-        if only_ids and c["id"] not in only_ids:
-            continue
-        price = c.get("price")
-        if not price:
-            print(f"  ! {c['id']} {c['player']}: no price — skipped", file=sys.stderr)
-            continue
-        imgs = []
-        if c.get("photo"):
-            imgs.append(f"{SITE}/{c['photo']}")
-        if c.get("photoBack"):
-            imgs.append(f"{SITE}/{c['photoBack']}")
-        yield [
-            "Sports Cards", subcategory(c), title(c), description(c), 1,
-            "Buy it Now", price, "Sports singles (3oz)", "TRUE", "Not Hazmat",
+def row(c, listing_type, price, offerable):
+    imgs = [f"{SITE}/{c[k]}" for k in ("photo", "photoBack") if c.get(k)]
+    return ["Sports Cards", subcategory(c), title(c), description(c), 1,
+            listing_type, price, "Sports singles (3oz)", offerable, "Not Hazmat",
             "Graded" if c.get("grade") else "Raw - Near Mint or Better",
-            "", c["id"],
-        ] + imgs + [""] * (8 - len(imgs))
+            "", c["id"]] + imgs + [""] * (8 - len(imgs))
 
-def main():
-    only = set(a for a in sys.argv[1:] if a.startswith("C")) or None
-    out = "whatnot-listings.csv"
+def write(out, rws):
     with open(out, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(HEADERS)
-        n = 0
-        total = 0.0
-        for r in rows(only):
+        for r in rws:
             w.writerow(r)
-            n += 1
-            total += float(r[6])
-    print(f"wrote {out} — {n} listings, ${total:,.2f} total ask")
+    total = sum(float(r[6]) for r in rws)
+    print(f"wrote {out} — {len(rws)} listings, ${total:,.2f} "
+          f"({'total ask' if rws and rws[0][5]=='Buy it Now' else 'total start bids'})")
+
+def arg(name, default):
+    if name in sys.argv:
+        return float(sys.argv[sys.argv.index(name) + 1])
+    return default
+
+def main():
+    mode = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith(("-", "C")) else "shop"
+    cs = {c["id"]: c for c in cards()}
+    priced = [c for c in cs.values() if c.get("price")]
+    for c in cs.values():
+        if not c.get("price"):
+            print(f"  ! {c['id']} {c['player']}: no price — skipped", file=sys.stderr)
+
+    if mode == "shop":
+        lo = arg("--min", 10)
+        keep = sorted((c for c in priced if c["price"] >= lo), key=lambda c: -c["price"])
+        write("whatnot-shop.csv", [row(c, "Buy it Now", c["price"], "TRUE") for c in keep])
+    elif mode == "show":
+        start = arg("--start", 1)
+        ids = [a for a in sys.argv[2:] if a.startswith("C")]
+        if ids:
+            missing = [i for i in ids if i not in cs]
+            if missing:
+                sys.exit(f"not sellable / unknown: {missing}")
+            keep = [cs[i] for i in ids]                      # your order = run order
+        else:
+            hi = arg("--under", 10)
+            limit = int(arg("--limit", 999))
+            keep = sorted((c for c in priced if c["price"] < hi),
+                          key=lambda c: -c["price"])[:limit]  # best fodder first
+        write("whatnot-show.csv", [row(c, "Auction", start, "FALSE") for c in keep])
+    else:
+        sys.exit(__doc__)
 
 if __name__ == "__main__":
     main()
