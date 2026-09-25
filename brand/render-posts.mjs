@@ -16,7 +16,7 @@ const arg = (name, dflt) => {
   return i > -1 ? process.argv[i + 1] : dflt;
 };
 const DATE = arg('--date', 'FRIDAY 7PM ET');
-const IDS = arg('--cards', 'C117,C103').split(',').map(s => s.trim());
+const IDS = arg('--cards', 'C164,C033').split(',').map(s => s.trim());
 
 const src = readFileSync(path.join(ROOT, 'collection.js'), 'utf8');
 const cards = JSON.parse(src.slice(src.indexOf('['), src.lastIndexOf(']') + 1));
@@ -66,7 +66,7 @@ const page_ = (mode) => {
   .datebar { margin-top:${cover ? 44 : 36}px; }
 </style></head><body><div class="wrap">
   ${title}
-  <div class="chips"><div class="chip">$1 STARTS</div><div class="sub">RCs · PSA SLABS · PARALLELS</div></div>
+  <div class="chips"><div class="chip">$1 STARTS</div><div class="sub">RCs · REFRACTORS · PARALLELS</div></div>
   <div class="cards">${photos}</div>
   <div class="chips datebar"><div class="chip">${DATE}</div></div>
   <div class="handle" style="margin-top:${cover ? 40 : 32}px">@<b>Mayseqards</b></div>

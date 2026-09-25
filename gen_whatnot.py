@@ -31,6 +31,8 @@ NBA = {"Hawks","Celtics","Nets","Hornets","Bulls","Cavaliers","Mavericks","Nugge
        "Bucks","Timberwolves","Pelicans","Knicks","Thunder","Magic","76ers","Suns",
        "Trail Blazers","Blazers","Kings","Spurs","Raptors","Jazz","Wizards"}
 FOOTBALL = {"Lions","Bears","Packers","Cowboys","Eagles","Chiefs","Bills","49ers"}
+# Never list on Whatnot: oversized items that don't fit the Sports singles (3oz) profile.
+EXCLUDE = {"C104"}  # Barry Sanders 2004 Topps HOF plaque auto — too big to ship as a single
 
 def cards():
     out = []
@@ -38,7 +40,8 @@ def cards():
         s = line.strip().rstrip(",")
         if s.startswith('{"id":"C'):
             c = json.loads(s)
-            if c.get("status") in ("forSale", "scheduled") and not c.get("hold"):
+            if c.get("status") in ("forSale", "scheduled") and not c.get("hold") \
+                    and not c.get("grade") and c["id"] not in EXCLUDE:   # raw only — no slabs on Whatnot
                 out.append(c)
     return out
 
@@ -98,9 +101,10 @@ def main():
     if mode == "shop":
         lo = arg("--min", 10)
         keep = sorted((c for c in priced if c["price"] >= lo), key=lambda c: -c["price"])
-        write("whatnot-shop.csv", [row(c, "Buy it Now", c["price"], "TRUE") for c in keep])
+        # Whatnot rejects non-integer prices ("must be a positive integer")
+        write("whatnot-shop.csv", [row(c, "Buy it Now", max(1, round(c["price"])), "TRUE") for c in keep])
     elif mode == "show":
-        start = arg("--start", 1)
+        start = int(arg("--start", 1))
         ids = [a for a in sys.argv[2:] if a.startswith("C")]
         if ids:
             missing = [i for i in ids if i not in cs]
