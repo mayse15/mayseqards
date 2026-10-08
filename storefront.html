@@ -8,6 +8,10 @@
 <meta property="og:title" content="MayseQards — The Vault">
 <meta property="og:description" content="A curated basketball card collection — select cards for sale on eBay, the rest open to offers.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://mayseqards.com/brand/avatar-mq.png">
+<meta name="theme-color" content="#08090C">
+<link rel="icon" type="image/png" href="brand/favicon.png">
+<link rel="apple-touch-icon" href="brand/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -350,13 +354,94 @@ body{
 
 @media(max-width:640px){.card-grid{grid-template-columns:repeat(3,1fr);gap:10px;}.cmd-bar{flex-direction:column;}}
 @media(max-width:360px){.card-grid{grid-template-columns:repeat(2,1fr);}}
-@media(prefers-reduced-motion:reduce){.wordmark{animation:none;}.holo-shimmer{animation:none;}.card-tile,.btn-ebay,.ebay-strip-btn,.enter-btn{transition:none;}}
+/* ══ 2026 refresh — brand mark, hero card fan, sticky glass dock, 3D tilt, scroll reveal, spotlight flip ══ */
+.site-header > *{position:relative;z-index:1;}
+.mark{width:60px;height:60px;border-radius:16px;margin:0 auto 18px;display:block;border:1px solid var(--line-brass);box-shadow:0 12px 32px rgba(0,0,0,.55),0 0 0 4px rgba(105,160,200,.06);object-fit:cover;}
+/* hero fan — real headliner slabs fanned behind the wordmark, masked so the type stays clean */
+.hero-fan{position:absolute;left:0;right:0;top:0;height:620px;z-index:0;pointer-events:none;overflow:hidden;perspective:1400px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 50%,transparent 96%);mask-image:linear-gradient(180deg,#000 0%,#000 50%,transparent 96%);}
+.hero-fan .fan-card{position:absolute;left:50%;top:60px;width:158px;aspect-ratio:5/7;border-radius:9px;overflow:hidden;border:1px solid rgba(166,204,224,.16);
+  box-shadow:0 34px 70px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.6);background:#0d0d10;opacity:0;
+  transform:translateX(-50%) translate(calc(var(--x) + var(--px,0px)*var(--dp,1)),calc(var(--y) + var(--py,0px)*var(--dp,1))) rotate(var(--r)) translateZ(var(--z,0px));
+  animation:fanin 1.1s cubic-bezier(.2,.7,.2,1) forwards,fanfloat 7s ease-in-out var(--d,0s) infinite;will-change:transform;}
+.hero-fan .fan-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,12,0) 55%,rgba(8,9,12,.55));}
+.hero-fan .fan-card img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) contrast(1.02);}
+@keyframes fanin{from{opacity:0;translate:0 40px;}to{opacity:var(--o,.5);translate:0 0;}}
+@keyframes fanfloat{0%,100%{translate:0 0;}50%{translate:0 -9px;}}
+@media(max-width:980px){.hero-fan .fan-card{width:120px;}}
+@media(max-width:700px){.hero-fan{display:none;}}
+/* sticky glass dock — search + tabs follow you down the page */
+.dock{position:sticky;top:0;z-index:60;margin:30px 0 0;padding:10px 20px;border-bottom:1px solid transparent;transition:background .25s,border-color .25s,box-shadow .25s,padding .25s;}
+.dock-inner{display:flex;align-items:center;justify-content:center;gap:12px;max-width:1080px;margin:0 auto;flex-wrap:wrap;}
+.dock .cmd-bar{margin:0;flex:1 1 280px;max-width:560px;padding:0;}
+.dock .site-nav{margin:0;padding:0;flex-wrap:nowrap;}
+.dock-brand{display:none;align-items:center;gap:9px;font-family:var(--display);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:12.5px;color:var(--brass-bright);text-decoration:none;}
+.dock-brand img{width:24px;height:24px;border-radius:7px;}
+.dock.stuck{background:rgba(8,9,12,.74);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom-color:var(--line);box-shadow:0 12px 32px rgba(0,0,0,.4);padding:8px 20px;}
+.dock.stuck .dock-brand{display:inline-flex;}
+.dock.stuck .cmd-search input{padding-top:10px;padding-bottom:10px;background:rgba(19,22,27,.8);}
+.dock.stuck .nav-btn{padding:7px 16px;}
+@media(max-width:640px){.dock .cmd-bar{flex-direction:row;}.dock.stuck .dock-brand{display:none;}}
+/* photo edge fade — melts the light photo backgrounds into the dark tiles */
+.card-photo::before{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.045),inset 0 -46px 48px -34px rgba(8,9,12,.95),inset 0 28px 40px -34px rgba(8,9,12,.7),inset 26px 0 40px -36px rgba(8,9,12,.6),inset -26px 0 40px -36px rgba(8,9,12,.6);}
+/* 3D holographic tilt (pointer devices only) */
+@media(hover:hover) and (pointer:fine){
+  .card-tile{transform-style:preserve-3d;}
+  .card-tile.tilt{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-5px) scale(1.025);transition:transform .07s linear,border-color .22s,box-shadow .22s;border-color:var(--line-brass);
+    box-shadow:0 26px 54px rgba(0,0,0,.6),0 0 0 1px rgba(105,160,200,.14),0 0 40px rgba(105,160,200,.08);}
+  .card-photo::after{content:'';position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .3s;mix-blend-mode:screen;
+    background:
+      radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.30),rgba(255,255,255,.07) 28%,transparent 58%),
+      linear-gradient(calc(var(--ga,115deg)),transparent 30%,rgba(166,204,224,.20) 42%,rgba(255,214,150,.12) 50%,rgba(140,230,210,.16) 58%,transparent 72%);}
+  .card-tile.tilt .card-photo::after{opacity:1;}
+  .card-tile.tilt .card-player{color:#fff;}
+}
+/* scroll reveal — uses the `translate` property so it never fights the hover/tilt transform */
+.rv{opacity:0;translate:0 18px;transition:opacity .55s ease,translate .55s cubic-bezier(.2,.7,.2,1);}
+.rv.in{opacity:1;translate:0 0;}
+/* Card Spotlight — bigger stage, front/back flip */
+.cs-card{max-width:880px;}
+.cs-pop.open .cs-card{animation:cspop .28s cubic-bezier(.2,.8,.2,1);}
+@keyframes cspop{from{opacity:0;transform:translateY(18px) scale(.97);}to{opacity:1;transform:none;}}
+.cs-top{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;align-items:start;padding:22px 22px 20px;}
+.cs-stage{perspective:1400px;}
+.cs-flip{position:relative;width:100%;aspect-ratio:3/4;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.2,.7,.2,1);}
+.cs-flip.flipped{transform:rotateY(180deg);}
+.cs-face{position:absolute;inset:0;border-radius:12px;overflow:hidden;background:#0b0c10;border:1px solid var(--line);backface-visibility:hidden;-webkit-backface-visibility:hidden;isolation:isolate;}
+.cs-face::before{content:'';position:absolute;inset:-30px;background:var(--img) center/cover no-repeat;filter:blur(26px) brightness(.45) saturate(1.2);z-index:0;}
+.cs-face img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;}
+.cs-face.back{transform:rotateY(180deg);}
+.cs-stage.noback .cs-flipbtn{display:none;}
+.cs-flipbtn{margin-top:12px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1px solid var(--line-brass);color:var(--brass-bright);border-radius:4px;padding:10px 12px;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .15s,border-color .15s;}
+.cs-flipbtn:hover{background:rgba(105,160,200,.1);border-color:var(--brass);}
+.cs-flipbtn svg{transition:transform .5s;}
+.cs-stage.flipped .cs-flipbtn svg{transform:rotate(180deg);}
+.cs-id{padding-right:22px;}
+.cs-player{font-size:26px;}
+.cs-pack{font-size:13px;margin-top:8px;}
+.cs-type{font-size:14px;margin-top:5px;}
+.cs-tags{margin-top:14px;}
+.cs-facts{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.cs-fact{background:rgba(10,10,12,.4);border:1px solid var(--line);border-radius:5px;padding:10px 12px;}
+.cs-fact-k{font-family:var(--display);font-weight:400;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);}
+.cs-fact-v{font-size:13px;color:var(--text);margin-top:4px;line-height:1.3;}
+.cs-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(19,22,27,.9);border:1px solid var(--line-brass);color:var(--brass-bright);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,transform .15s;}
+.cs-nav:hover{background:rgba(105,160,200,.18);}
+.cs-nav.prev{left:-54px;}.cs-nav.next{right:-54px;}
+.cs-wrap{position:relative;max-width:880px;width:100%;}
+@media(max-width:1000px){.cs-nav.prev{left:8px;}.cs-nav.next{right:8px;}.cs-nav{top:auto;bottom:-52px;transform:none;}}
+@media(max-width:640px){.cs-top{grid-template-columns:1fr;gap:16px;}.cs-stage{max-width:280px;margin:0 auto;}.cs-player{font-size:21px;}.cs-facts{grid-template-columns:1fr 1fr;}}
+html.embedded .dock,html.embedded .hero-fan,html.embedded .mark{display:none;}
+@media(prefers-reduced-motion:reduce){.wordmark{animation:none;}.holo-shimmer{animation:none;}.card-tile,.btn-ebay,.ebay-strip-btn,.enter-btn{transition:none;}.hero-fan .fan-card{animation:none;opacity:var(--o,.5);}.rv{opacity:1;translate:none;transition:none;}.cs-flip{transition:none;}.cs-pop.open .cs-card{animation:none;}.card-tile.tilt{transition:none;}}
 </style>
 </head>
 <body>
 
 <!-- ══ Header ══ -->
 <header class="site-header">
+  <div class="hero-fan" id="hero-fan" aria-hidden="true"></div>
+  <img class="mark" src="brand/avatar-mq.png" alt="MayseQards MQ mark" width="60" height="60">
   <div class="eyebrow">Collection &amp; Storefront · The Vault</div>
   <h1 class="wordmark">MayseQards</h1>
   <div class="rule"></div>
@@ -375,20 +460,26 @@ body{
     </a>
   </div>
 
-  <div class="cmd-bar">
-    <div class="cmd-search">
-      <svg class="search-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="search" type="search" placeholder="Search the vault — player, set, parallel…" autocomplete="off">
-    </div>
-  </div>
-
-  <nav class="site-nav">
-    <button class="nav-btn active" data-view="shop">The Collection</button>
-    <!-- Market Watch hidden until the value/comp data is reliable enough to publish. Restore this button to re-enable. -->
-    <!-- <button class="nav-btn" data-view="market">Market Watch</button> -->
-    <button class="nav-btn" data-view="sold">Wall of Cards</button>
-  </nav>
 </header>
+
+<!-- ══ Sticky dock: search + tabs (turns to frosted glass once it pins to the top) ══ -->
+<div class="dock" id="dock">
+  <div class="dock-inner">
+    <a class="dock-brand" href="#top" id="dock-brand"><img src="brand/avatar-mq.png" alt=""> MayseQards</a>
+    <div class="cmd-bar">
+      <div class="cmd-search">
+        <svg class="search-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="search" type="search" placeholder="Search the vault — player, set, parallel…" autocomplete="off">
+      </div>
+    </div>
+    <nav class="site-nav">
+      <button class="nav-btn active" data-view="shop">The Collection</button>
+      <!-- Market Watch hidden until the value/comp data is reliable enough to publish. Restore this button to re-enable. -->
+      <!-- <button class="nav-btn" data-view="market">Market Watch</button> -->
+      <button class="nav-btn" data-view="sold">Wall of Cards</button>
+    </nav>
+  </div>
+</div>
 
 <!-- ══ Headliners ══ -->
 <section class="headliners" id="headliners">
@@ -527,7 +618,7 @@ const extIcon='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" strok
 
 function photoBlock(c){
   const holo=`<div class="holo"><div class="holo-shimmer"></div><div class="holo-lines"></div><div class="card-initial">${esc(c.player[0])}</div><div class="card-corner">${esc(c.id)}</div></div>`;
-  const img=c.photo?`<img class="card-img" src="${esc(c.photo)}" alt="${esc(c.player)} card" onerror="this.style.display='none'">`:'';
+  const img=c.photo?`<img class="card-img" src="${esc(c.photo)}" alt="${esc(c.player)} card" loading="lazy" decoding="async" onerror="this.style.display='none'">`:'';
   return holo+img;
 }
 
@@ -589,6 +680,21 @@ function renderHeadliners(){
   if(!feat.length){ $('headliners').style.display='none'; return; }
   $('headliners').style.display='';
   grid.innerHTML=feat.map(c=>tileHTML(c,{headliner:true})).join('');
+  renderFan(feat);
+  observeReveal(grid);
+}
+/* ── hero fan: the top headliner slabs fanned out behind the wordmark ── */
+function renderFan(cards){
+  const fan=$('hero-fan'); if(!fan) return;
+  const pick=cards.filter(c=>c.photo).slice(0,6);
+  // slots: [x offset from center, y, rotation, depth, opacity, float delay] — symmetric fan, nothing behind the type
+  const slots=[
+    {x:-560,y:50,r:-18,dp:1.6,o:.55,d:'-1s'},{x:-345,y:8,r:-9,dp:1.2,o:.7,d:'-3s'},{x:-215,y:-34,r:-3,dp:.8,o:.34,d:'-5s'},
+    {x:560,y:50,r:18,dp:1.6,o:.55,d:'-2s'},{x:345,y:8,r:9,dp:1.2,o:.7,d:'-4s'},{x:215,y:-34,r:3,dp:.8,o:.34,d:'-6s'}
+  ];
+  // order the picks so the two strongest cards land in the prominent inner-mid slots
+  const order=[1,4,0,3,2,5];
+  fan.innerHTML=pick.map((c,i)=>{const s=slots[order[i]]; return `<div class="fan-card" style="--x:${s.x}px;--y:${s.y}px;--r:${s.r}deg;--dp:${s.dp};--o:${s.o};--d:${s.d};animation-delay:${.08*i}s,${s.d}"><img src="${esc(c.photo)}" alt="" decoding="async"></div>`;}).join('');
 }
 
 /* ── render collection ── */
@@ -637,7 +743,7 @@ function renderShop(){
   let html='';
   if(listedCards.length) html+=shopSection('Listed for Sale', listedCards, true);
   if(!forSaleOnly && collCards.length) html+=shopSection('In the Collection', collCards, false);
-  if(html){ empty.style.display='none'; grid.innerHTML=html; }
+  if(html){ empty.style.display='none'; grid.innerHTML=html; observeReveal(grid); }
   else { grid.innerHTML=''; empty.style.display='block'; }
 
   const shown=forSaleOnly?listedCards.length:cards.length;
@@ -663,7 +769,7 @@ function shopSection(title, list, isLive){
 function renderSold(){
   const sold=CARDS.filter(c=>c.status==='sold');
   const grid=$('sold-grid'), empty=$('sold-empty');
-  if(sold.length){ grid.innerHTML=sold.map(c=>tileHTML(c,{sold:true})).join(''); empty.style.display='none'; }
+  if(sold.length){ grid.innerHTML=sold.map(c=>tileHTML(c,{sold:true})).join(''); empty.style.display='none'; observeReveal(grid); }
   else { grid.innerHTML=''; empty.style.display='block'; }
   renderReviews();
 }
@@ -857,9 +963,23 @@ function spotlightHTML(c){
   const ser=parseSerial(c.type);
   const scar=ser?(ser.run===1?'1/1':'/'+ser.run):null;
   const scarCls=ser?(ser.run<=10?'elite':ser.run<=50?'rare':''):'';
-  const thumb=c.photo
-    ? `<img src="${esc(c.photo)}" alt="${esc(c.player)}" onerror="this.style.display='none'">`
-    : `<div class="holo"><div class="holo-shimmer"></div><div class="card-initial">${esc(c.player[0])}</div></div>`;
+  // Stage: front face + (if the file exists) a back face you can flip to — 3D card flip.
+  const backSrc=c.photo?String(c.photo).replace(/(\.[a-z0-9]+)$/i,'_back$1'):'';
+  const stage=c.photo
+    ? `<div class="cs-stage" id="cs-stage">
+        <div class="cs-flip" id="cs-flip">
+          <div class="cs-face front" style="--img:url('${esc(c.photo)}')"><img src="${esc(c.photo)}" alt="${esc(c.player)} — front" onerror="this.style.display='none'"></div>
+          <div class="cs-face back" style="--img:url('${esc(backSrc)}')"><img src="${esc(backSrc)}" alt="${esc(c.player)} — back" onerror="document.getElementById('cs-stage').classList.add('noback')"></div>
+        </div>
+        <button class="cs-flipbtn" id="cs-flipbtn" type="button"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg> Flip card</button>
+      </div>`
+    : `<div class="cs-stage noback"><div class="cs-thumb"><div class="holo"><div class="holo-shimmer"></div><div class="card-initial">${esc(c.player[0])}</div></div></div></div>`;
+  const facts=[
+    ['Set',c.pack],['Card',c.type],
+    ['Team',c.team||'—'],['Type',c.cat||'—'],
+    ['Condition',c.grade?c.grade+' graded':'Raw (ungraded)'],['Print run',ser?(ser.run===1?'One of one':'Numbered to '+ser.run):'Not serial-numbered']
+  ];
+  const factsHTML=`<div class="cs-facts">${facts.map(([k,v])=>`<div class="cs-fact"><div class="cs-fact-k">${k}</div><div class="cs-fact-v">${k==='Card'?highlight(v):esc(v)}</div></div>`).join('')}</div>`;
   const hasLink=c.listing&&c.listing.trim();
   // Personal-collection cards → no buy/inquire path at all (not for sale). Listed → real eBay link.
   // Otherwise (in the collection, not personal) → email inquiry for that specific card.
@@ -872,39 +992,119 @@ function spotlightHTML(c){
     ? `Graded ${esc(c.grade)} — a professionally slabbed copy.`
     : 'Raw copy. Graded (PSA/BGS) examples of this card sell for more.';
 
-  return `<div class="cs-card" role="dialog" aria-modal="true" aria-label="${esc(c.player)} card details">
+  const chev=d=>`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="${d<0?'15 18 9 12 15 6':'9 18 15 12 9 6'}"/></svg>`;
+  return `<div class="cs-wrap">
+  <button class="cs-nav prev" id="cs-prev" type="button" aria-label="Previous card">${chev(-1)}</button>
+  <button class="cs-nav next" id="cs-next" type="button" aria-label="Next card">${chev(1)}</button>
+  <div class="cs-card" role="dialog" aria-modal="true" aria-label="${esc(c.player)} card details">
     <div class="cs-top">
-      <div class="cs-thumb">${thumb}</div>
+      ${stage}
       <div class="cs-id">
         <div class="cs-player">${esc(c.player)}</div>
         <div class="cs-pack">${esc(c.pack)}</div>
         <div class="cs-type">${highlight(c.type)}</div>
         <div class="cs-tags">${gradeChip(c)}${scar?`<span class="serial-badge ${scarCls}">${scar}</span>`:''}</div>
+        ${factsHTML}
+        <div class="cs-upside"><span class="cs-up-ic">▲</span><span>${upside}</span></div>
+        ${ctaBtn?`<div class="cs-btns">${ctaBtn}</div>`:''}
       </div>
       <button class="cs-x" id="cs-x" aria-label="Close">✕</button>
     </div>
-    <div class="cs-body">
-      <div class="cs-upside"><span class="cs-up-ic">▲</span><span>${upside}</span></div>
-      ${ctaBtn?`<div class="cs-btns">${ctaBtn}</div>`:''}
-    </div>
-  </div>`;
+  </div></div>`;
 }
+// ids of every card tile currently on the page, in visual order — powers prev/next inside the spotlight
+function visibleCardIds(){
+  const seen=new Set(), out=[];
+  document.querySelectorAll('.card-tile[data-card]').forEach(t=>{ if(t.offsetParent===null) return; const id=t.getAttribute('data-card'); if(!seen.has(id)){seen.add(id);out.push(id);} });
+  return out;
+}
+let spotlightId=null;
 function openSpotlight(id){
   const c=CARDS.find(x=>x.id===id); if(!c) return;
+  spotlightId=id;
   let pop=$('cs-pop');
   if(!pop){ pop=document.createElement('div'); pop.id='cs-pop'; pop.className='cs-pop'; document.body.appendChild(pop); }
   pop.innerHTML=spotlightHTML(c);
   pop.classList.add('open');
+  document.body.style.overflow='hidden';
   const x=$('cs-x'); if(x) x.addEventListener('click',closeSpotlight);
+  const fb=$('cs-flipbtn'); if(fb) fb.addEventListener('click',flipSpotlight);
+  const fl=$('cs-flip'); if(fl) fl.addEventListener('click',flipSpotlight);
+  const ids=visibleCardIds(), i=ids.indexOf(id);
+  const prev=$('cs-prev'), next=$('cs-next');
+  if(ids.length<2){ prev.style.display='none'; next.style.display='none'; }
+  else {
+    prev.addEventListener('click',()=>openSpotlight(ids[(i-1+ids.length)%ids.length]));
+    next.addEventListener('click',()=>openSpotlight(ids[(i+1)%ids.length]));
+  }
 }
-function closeSpotlight(){ const p=$('cs-pop'); if(p) p.classList.remove('open'); }
+function flipSpotlight(){ const st=$('cs-stage'), fl=$('cs-flip'); if(!st||st.classList.contains('noback')||!fl) return; fl.classList.toggle('flipped'); st.classList.toggle('flipped'); }
+function closeSpotlight(){ const p=$('cs-pop'); if(p) p.classList.remove('open'); document.body.style.overflow=''; spotlightId=null; }
 document.addEventListener('click',e=>{
   const pop=$('cs-pop');
   if(pop&&pop.classList.contains('open')&&e.target===pop){ closeSpotlight(); return; }
   const tile=e.target.closest('[data-card]');
   if(tile&&!e.target.closest('a')) openSpotlight(tile.getAttribute('data-card'));
 });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeSpotlight(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeSpotlight();
+  if(!spotlightId) return;
+  if(e.key==='ArrowLeft'){ const b=$('cs-prev'); if(b) b.click(); }
+  if(e.key==='ArrowRight'){ const b=$('cs-next'); if(b) b.click(); }
+  if(e.key===' '||e.key==='f'){ e.preventDefault(); flipSpotlight(); }
+});
+
+/* ── 2026 refresh: scroll reveal, 3D tilt, sticky dock, hero parallax ── */
+const REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const revealIO=('IntersectionObserver' in window)&&!REDUCED ? new IntersectionObserver(es=>{
+  es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); revealIO.unobserve(en.target); } });
+},{rootMargin:'0px 0px -6% 0px',threshold:.08}) : null;
+function observeReveal(root){
+  if(!revealIO) return;
+  root.querySelectorAll('.card-tile:not(.rv)').forEach((t,i)=>{ t.classList.add('rv'); t.style.transitionDelay=((i%8)*45)+'ms'; revealIO.observe(t); });
+}
+// 3D holographic tilt — delegated; pointer devices only (CSS gates the visuals too)
+(function(){
+  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches||REDUCED) return;
+  let cur=null, raf=0, last=null;
+  function apply(){
+    raf=0; if(!cur||!last) return;
+    const r=cur.getBoundingClientRect();
+    const px=(last.x-r.left)/r.width, py=(last.y-r.top)/r.height;
+    const ry=((px-.5)*16).toFixed(2), rx=((.5-py)*14).toFixed(2);
+    cur.style.setProperty('--rx',rx+'deg'); cur.style.setProperty('--ry',ry+'deg');
+    cur.style.setProperty('--gx',(px*100).toFixed(1)+'%'); cur.style.setProperty('--gy',(py*100).toFixed(1)+'%');
+    cur.style.setProperty('--ga',(90+(px-.5)*60).toFixed(0)+'deg');
+  }
+  document.addEventListener('pointermove',e=>{
+    const t=e.target.closest('.card-tile');
+    if(t!==cur){ if(cur){cur.classList.remove('tilt');cur.style.removeProperty('--rx');cur.style.removeProperty('--ry');} cur=t; if(cur) cur.classList.add('tilt'); }
+    if(!cur) return;
+    last={x:e.clientX,y:e.clientY};
+    if(!raf) raf=requestAnimationFrame(apply);
+  },{passive:true});
+  document.addEventListener('pointerleave',()=>{ if(cur){cur.classList.remove('tilt');cur=null;} });
+})();
+// sticky dock turns to frosted glass once it pins to the top
+(function(){
+  const dock=$('dock'); if(!dock) return;
+  let ticking=false;
+  const check=()=>{ ticking=false; dock.classList.toggle('stuck',dock.getBoundingClientRect().top<=0&&window.scrollY>40); };
+  window.addEventListener('scroll',()=>{ if(!ticking){ticking=true;requestAnimationFrame(check);} },{passive:true});
+  check();
+  const brand=$('dock-brand'); if(brand) brand.addEventListener('click',e=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+})();
+// hero parallax — the fanned slabs drift opposite the pointer
+(function(){
+  const fan=$('hero-fan'); if(!fan||REDUCED||!window.matchMedia('(hover:hover)').matches) return;
+  const hdr=document.querySelector('.site-header'); let raf=0, px=0, py=0;
+  hdr.addEventListener('pointermove',e=>{
+    const r=hdr.getBoundingClientRect();
+    px=((e.clientX-r.left)/r.width-.5)*-22; py=((e.clientY-r.top)/r.height-.5)*-14;
+    if(!raf) raf=requestAnimationFrame(()=>{ raf=0; fan.style.setProperty('--px',px.toFixed(1)+'px'); fan.style.setProperty('--py',py.toFixed(1)+'px'); });
+  },{passive:true});
+  hdr.addEventListener('pointerleave',()=>{ fan.style.setProperty('--px','0px'); fan.style.setProperty('--py','0px'); });
+})();
 
 /* ── init ── */
 buildFilters();
