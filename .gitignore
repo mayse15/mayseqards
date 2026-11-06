@@ -116,3 +116,8 @@ MARGIN-PLAN.md
 box-state/
 whatnot-eval/
 *.json.tmp.*
+
+# Command Center redesign mockups (private)
+cc-mock-*.html
+cc-mockups/
+home.html.bak-*
